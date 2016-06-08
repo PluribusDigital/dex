@@ -1,0 +1,38 @@
+<table class="usa-table-borderless">
+  <thead>
+    <tr>
+      <th scope="col">Action</th>
+      <th scope="col">Provider</th>
+      <th scope="col">Date</th>
+      <th scope="col">Source</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="action in actions">
+      <td>
+        <span class="usa-label-big">
+          {{action.actionName}}
+        </span>
+      </td>
+      <td>{{ action.providerName }}</td>
+      <td>{{ action.date }}</td>
+      <td>{{ action.source }}</td>
+      <td>
+        <i class="gi gi-check" ng-show="action.statusName=='Published'"></i>
+        <i class="gi gi-file-text-o" ng-show="action.statusName=='Review'"></i>
+        {{ action.statusName }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="usa-alert usa-alert-info">
+  <div class="usa-alert-body">
+    <h3 class="usa-alert-heading">About this Page</h3>
+    <p class="usa-alert-text">This page is for a the CMS reviewer to review a queue of actions, and also see recent completed/reviewed actions</p>
+  </div>
+</div>
+
+

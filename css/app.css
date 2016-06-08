@@ -1,3 +1,16 @@
 .dex-bg-alert {
   background: #e31c3d;
 }
+
+.dex-action-card {
+  margin-top: 2em;
+}
+
+.dex-action-card .gi {
+  margin-left: -25px;
+}
+
+table.dex-state-inventory-table td, table.dex-state-inventory-table th {
+  padding: 5px;
+  text-align: center;
+}
