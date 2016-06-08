@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="dex" >
+
+  <head>
+    <!-- Basic Page Needs
+================================================== -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Mobile Specific Metas
+================================================== -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Title and meta description
+================================================== -->
+
+  <title>DEX | STSI</title>
+  <meta property="og:title" content="Draft U.S. Web Design Standards | Draft U.S. Web Design Standards" />
+
+
+
+  <meta name="description" content="">
+  <meta property="og:description" content="" />
+
+
+  <link rel="canonical" href="/" />
+
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.js"></script>
+  <script src="/assets/js/vendor/respond.js"></script>
+  <script src="/assets/js/vendor/selectivizr-min.js"></script>
+<![endif]-->
+
+
+<!-- CSS
+================================================== -->
+  <link rel="stylesheet" href="/node_modules/uswds/dist/css/uswds.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+
+  </head>
+
+  <body>
+
+    <div id="main" class="main-content" role="main">
+      <a class="skipnav" href="#main-content">Skip main navigation</a>
+
+      <header role="banner">
+
+        <div class="usa-disclaimer">
+          <div class="usa-grid">
+            <span class="usa-disclaimer-official">
+              <img alt="Logo signifying this is an STSI website" src="/img/stsi_logo_mini.png">
+              Team STSI Prototype (not an official website of the United States government)
+            </span>
+          </div>
+        </div>
+
+        <section class="usa-banner">
+          <div class="usa-grid">
+            <nav>
+              <a class="usa-banner-link-top" href="#">About this Prototype</a>
+            </nav>
+            <div class="usa-banner-content" id="main-content">
+              <h1>{{ pageTitle }}</h1>
+            </div>
+          </div>
+        </section>
+
+      </header>
+
+      <!-- MAIN VIEW -->
+      <section class="usa-section">
+        <div class="usa-grid">
+          <div ng-view class="usa-banner-content" id="main-content">
+          </div>
+        </div>
+      </section>
+
+
+    </div>
+    <!--[if lt IE 9]>
+  <script src="/assets/js/vendor/selectivizr-min.js"></script>
+  <script src="/assets/js/vendor/respond.js"></script>
+  <script src="/assets/js/vendor/rem.min.js"></script>
+<![endif]-->
+  
+  <!-- JS Dependencies -->
+  <script src="/node_modules/angular/angular.min.js"></script>
+  <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="/node_modules/angular-route/angular-route.min.js"></script>
+
+  <!-- JS App -->
+  <script type="text/javascript" language="javascript" src="/js/app.js" charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" src="/js/services/DataService.js" charset="utf-8"></script>
+  </body>
+
+</html>
