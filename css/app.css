@@ -14,3 +14,7 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
   padding: 5px;
   text-align: center;
 }
+
+.dex-small {
+  font-size: 0.8em;
+}
