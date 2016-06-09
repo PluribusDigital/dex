@@ -29,17 +29,17 @@
   <link rel="canonical" href="/" />
 
 <!--[if lt IE 9]>
-  <script src="/assets/js/vendor/html5shiv.js"></script>
-  <script src="/assets/js/vendor/respond.js"></script>
-  <script src="/assets/js/vendor/selectivizr-min.js"></script>
+  <script src="assets/js/vendor/html5shiv.js"></script>
+  <script src="assets/js/vendor/respond.js"></script>
+  <script src="assets/js/vendor/selectivizr-min.js"></script>
 <![endif]-->
 
 
 <!-- CSS
 ================================================== -->
-  <link rel="stylesheet" href="/node_modules/uswds/dist/css/uswds.min.css">
-  <link rel="stylesheet" href="/node_modules/govicons/css/govicons.min.css">
-  <link rel="stylesheet" href="/css/app.css">
+  <link rel="stylesheet" href="node_modules/uswds/dist/css/uswds.min.css">
+  <link rel="stylesheet" href="node_modules/govicons/css/govicons.min.css">
+  <link rel="stylesheet" href="css/app.css">
 
   </head>
 
@@ -48,53 +48,29 @@
     <div id="main" class="main-content" role="main">
       <a class="skipnav" href="#main-content">Skip main navigation</a>
 
+      <header role="banner">
 
-
-
-      <header role="banner usa-site-header">
         <div class="usa-disclaimer">
           <div class="usa-grid">
             <span class="usa-disclaimer-official">
-              <img alt="Logo signifying this is an STSI website" src="/img/stsi_logo_mini.png">
+              <img alt="Logo signifying this is an STSI website" src="img/stsi_logo_mini.png">
               Team STSI Prototype (not an official website of the United States government)
-              <a class="usa-banner-link-top" href="#">About this Prototype</a>
             </span>
           </div>
         </div>
 
-        <!-- <nav class="usa-site-navbar">
-          <a class="menu-btn" href="#">Menu</a>
-          <div class="logo" id="logo">
-            <h1>
-              <a href="/" accesskey="1" title="Home" aria-label="Home">
-              DEX</a>
-            </h1>
+        <section class="usa-banner">
+          <div class="usa-grid">
+            <nav>
+              <a class="usa-banner-link-top" href="#">About this Prototype</a>
+            </nav>
+            <div class="usa-banner-content" id="main-content">
+              <h1>{{ pageTitle }}</h1>
+            </div>
           </div>
-          <ul class="usa-button-list usa-unstyled-list">
-            <li>
-              <a class="usa-button" href="https://github.com/18F/web-design-standards/releases/download/v0.9.3/uswds-0.9.3.zip" onclick="ga('send', 'event', 'Downloaded framework', 'Clicked download button inside site');">Download code</a>
-            </li>
-            <li>
-              <a class="usa-button usa-button-outline" href="https://github.com/18F/web-design-standards" onclick="ga('send', 'event', 'Viewed on Github', 'Clicked View on Github from inside site');">
-                View on GitHub
-              </a>
-            </li>
-          </ul>
-        </nav> -->
+        </section>
 
       </header>
-
-
-      <!-- SIDE NAV -->
-      <!-- <aside class="sidenav menu-content">
-        <nav>
-          <ul class="usa-sidenav-list">
-            <li>
-              <a href="/getting-started/">Getting started</a>
-            </li>
-          </ul>
-        </nav>
-      </aside> -->
 
       <!-- MAIN VIEW -->
       <section class="usa-section">
@@ -107,20 +83,20 @@
 
     </div>
     <!--[if lt IE 9]>
-  <script src="/assets/js/vendor/selectivizr-min.js"></script>
-  <script src="/assets/js/vendor/respond.js"></script>
-  <script src="/assets/js/vendor/rem.min.js"></script>
+  <script src="assets/js/vendor/selectivizr-min.js"></script>
+  <script src="assets/js/vendor/respond.js"></script>
+  <script src="assets/js/vendor/rem.min.js"></script>
 <![endif]-->
   
   <!-- JS Dependencies -->
-  <script src="/node_modules/uswds/dist/js/uswds.js"></script>
-  <script src="/node_modules/angular/angular.min.js"></script>
-  <script src="/node_modules/angular-animate/angular-animate.min.js"></script>
-  <script src="/node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+  <script src="node_modules/angular-route/angular-route.min.js"></script>
+  <script src="node_modules/uswds/dist/js/uswds.min.js"></script>
 
   <!-- JS App -->
-  <script type="text/javascript" language="javascript" src="/js/app.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="/js/services/DataService.js" charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" src="js/app.js" charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" src="js/services/DataService.js" charset="utf-8"></script>
   </body>
 
 <!-- JS Initiation -->
