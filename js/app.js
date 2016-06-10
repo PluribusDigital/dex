@@ -13,7 +13,7 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'ActionsController'
     }).when('/create-action', {
         templateUrl: "templates/actions/create-action.html",
-        controller: 'ProviderController'
+        controller: 'ActionsController'
     }).when('/providers/:id', {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'

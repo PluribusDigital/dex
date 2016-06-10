@@ -62,7 +62,7 @@
       </header>
 
       <!--Sidebar-->
-      <div class="sidebar-container hidden">
+      <div class="sidebar-container ng-class: {'hidden': !loggedIn}">
         <aside class="sidebar">
           <span class="user-icon">
             <i class="gi gi-user"></i>
@@ -87,7 +87,7 @@
       <!-- MAIN VIEW -->
       <section class="usa-section">
         <div class="usa-grid">
-          <div ng-view class="usa-banner-content" id="main-content">
+          <div ng-view class="usa-banner-content" id="main-content-container">
           </div>
         </div>
       </section>
