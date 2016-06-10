@@ -1,7 +1,4 @@
 
-{{provider}}
-
-
 <div class="usa-grid">
 
   <!-- Basic info & ACTIONS -->
@@ -11,7 +8,7 @@
     <div class="dex-provider-info">
       <h3>Provider: {{provider.name}} <small>({{provider.type}})</small></h3>
       <div>NPI: {{provider.npi}}</div>
-      <address>{{provider.mailing_address}}</address>
+      <address dex-address="provider.mailing_address"></address>
     </div>
 
     <h3>Actions</h3>
