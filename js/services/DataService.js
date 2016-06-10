@@ -1,22 +1,94 @@
 app.factory('DataService',
-    function ($http) {
-        'use strict';
+    function ($http, $timeout, $q, $http) {
 
         var service = {
+            baseUrl: 'https://cmsdex-api.540.co/',
 
-            baseUrl: 'https://cmsdex-api.540.co/', 
-            // Docs at https://cmsdex-api.540.co/
+            _get: function(url, params) {
+                var deferred = $q.defer();
 
-            error: function (response) {
-                console.log('error when calling Data API');
-                console.log(response);
-                return [];
+                $http.get(url, params).then(function (response) {
+                    deferred.resolve(response.data);
+                }, function (response) {
+                    console.log('error when calling ' + url);
+                    console.log(response);
+                    deferred.reject();
+                })
+
+                return deferred.promise;
             },
 
-            getProvider: function (id,success) {
-                return $http.get(this.baseUrl+"providers/"+id,{})
-                .then(function (response) { success(response.data); }, this.error);
-            }
+            getAcknowledgements: function (id) {
+                return this._get(this.baseUrl + "actions/" + id + "/acknowledgements", {});
+            },
+
+            getAllActions: function () {
+                return this._get(this.baseUrl + "actions/", {});
+            },
+
+            getAction: function (id) {
+                return this._get(this.baseUrl + "actions/" + id, {});
+            },
+
+            getAllAddresses: function () {
+                return this._get(this.baseUrl + "addresses/", {});
+            },
+
+            getAddress: function (id) {
+                return this._get(this.baseUrl + "addresses/" + id, {});
+            },
+
+            getAllAttachments: function () {
+                return this._get(this.baseUrl + "attachments/", {});
+            },
+
+            getAttachment: function (id) {
+                return this._get(this.baseUrl + "attachments/" + id, {});
+            },
+
+            getAllProviders: function () {
+                return this._get(this.baseUrl + "providers/", {});
+            },
+
+            getProvider: function (id) {
+                return this._get(this.baseUrl + "providers/" + id, {});
+            },
+
+            getAllStates: function () {
+                return this._get(this.baseUrl + "states/", {});
+            },
+
+            getAllUsers: function () {
+                return this._get(this.baseUrl + "users/", {});
+            },
+
+            getUser: function (id) {
+                return this._get(this.baseUrl + "users/" + id, {});
+            },
+
+            //searchWithText: function (text, page) {
+            //    var params = {
+            //        "page": (page || 1),
+            //        "per_page": 20
+            //    };
+            //    if (text) {
+            //        params.search_fields = "cac,title,office,division,branch,pacode,docketcode";
+            //        params.search = text;
+            //    }
+
+            //    var deferred = $q.defer();
+
+            //    $http.get("http://fathomless-fjord-7794.herokuapp.com/api/cacs", { "params": params }).then(function (response) {
+            //        var mapped = response.data.data.map(fjordMap);
+            //        deferred.resolve(mapped);
+            //    }, function (response) {
+            //        console.log('error when calling cacs endpoint');
+            //        console.log(response);
+            //        deferred.reject();
+            //    })
+
+            //    return deferred.promise;
+            //}
 
         };
 
