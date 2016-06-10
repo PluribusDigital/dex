@@ -64,3 +64,8 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 .sign-in-container {
 	margin-top: 60px;
 }
+
+.dex-small {
+  font-size: 0.8em;
+
+}
