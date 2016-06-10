@@ -1,7 +1,7 @@
 app.controller("ProviderController", ['$scope', '$routeParams', '$location', 'DataService',
 function ($scope, $routeParams, $location, dataService) {
     $scope.pageTitle = "Provider Detail";
-    $scope.usStates = ['AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+    $scope.usStates = [];
     $scope.provider = {
         name: "Acme Health Care Providers, Inc.",
         npi: "1234567",
@@ -54,4 +54,19 @@ function ($scope, $routeParams, $location, dataService) {
             }
         ]
     };
+
+    // Fetch Handlers
+    $scope.onStatesLoaded = function (data) {
+        $scope.usStates = data.map(function (o) {
+            return o.abbreviation;
+        })
+    };
+
+    $scope.onProviderLoaded = function (data) {
+        console.log(data);
+    };
+
+    // Start fetching the data from the REST endpoints
+    dataService.getAllStates().then($scope.onStatesLoaded);
+    dataService.getProvider($routeParams.id).then($scope.onProviderLoaded);
 }]);

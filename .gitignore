@@ -8,3 +8,5 @@ __pycache__/
 
 # Project Files
 *.sublime-*
+*.sln
+*.suo
