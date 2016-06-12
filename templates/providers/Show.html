@@ -6,26 +6,31 @@
 
     <!-- Provider Heading -->
     <div class="dex-provider-info">
-      <h3>Provider: {{provider.name}} <small>({{provider.type}})</small></h3>
+      <h3>Provider: {{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
       <div>NPI: {{provider.npi}}</div>
       <address dex-address="provider.mailing_address"></address>
     </div>
 
     <h3>Actions</h3>
     <!-- Actions -->
-    <div class="usa-grid dex-action-card" ng-repeat="action in provider.actions">
+    <div class="usa-grid dex-action-card" ng-repeat="action in actions">
       <div class="usa-width-two-thirds" style="">
-        <i class="gi gi-times" ng-show="action.actionName=='Terminate'"></i>
-        <i class="gi gi-recycle" ng-show="action.actionName=='Reinstate'"></i>
-        <i class="gi gi-times" ng-show="action.actionName=='Terminate (Recip.)'"></i>
-        <i class="gi gi-recycle" ng-show="action.actionName=='Reinstate (Recip.)'"></i>
-        <span class="usa-label-big">{{action.reason}}</span>
-        <div>{{action.state_id}}</div>
-        <div>{{action.status}} | Last Updated: {{action.lastupdated_timestamp | date : 'M/d/yy' }}</div>
-        <div>{{action.practiceAddress}}</div>
+        <i class="gi gi-times" ng-show="action.action_type=='terminate'"></i>
+        <i class="gi gi-recycle" ng-show="action.action_type=='reinstate'"></i>
+        <span ng-repeat="reason in action.reason">
+          <span class="usa-label-big">{{reason}}</span>
+        </span>
+        <div>{{action.state.name}}</div>
+        <div>{{action.status | titlecase}} | Last Updated: {{action.lastupdated_timestamp | date : 'M/d/yy' }}</div>
+        <address dex-address="action.practice_address"></address>
       </div>
       <div class="usa-width-one-third" style="text-align:center">
-        <a href="#"><i class="gi gi-file-text" style="font-size:3em;"></i><br><span class="dex-small">Action Documentation (PDF)</span></a>
+        <div ng-repeat="attachment in action.attachments">
+          <a ng-href="{{attachment.url}}">
+            <i class="gi gi-file-text" style="font-size:3em;"></i>
+            <br><span class="dex-small">{{attachment.filename}}</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
