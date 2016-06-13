@@ -1,5 +1,5 @@
-app.controller("LoginController", ['$scope', '$routeParams', '$location', 'DataService', '$timeout',
-function ($scope, $routeParams, $location, dataService, $timeout) {
+app.controller("LoginController", ['$scope', '$routeParams', '$location', 'DataService', '$rootScope',
+function ($scope, $routeParams, $location, dataService, $rootScope) {
   $scope.pageTitle = "Welcome to CMS DEX";
   $scope.loggedIn = false;
   
@@ -11,6 +11,15 @@ function ($scope, $routeParams, $location, dataService, $timeout) {
       var main = angular.element(document.querySelector('.usa-section'));
       main.addClass('with-sidebar');
       $scope.loggedIn = true;
+      var userId;
+      if ($scope.username === 'cms') {
+        userId = 2;
+      } else if ($scope.username === 'state') {
+        userId = 4;
+      }
+      dataService.getUser(userId).then(function(data){
+        $rootScope.$broadcast('gotUser', data);
+      })
     }
   }
 
