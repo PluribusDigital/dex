@@ -1,29 +1,23 @@
-app.controller("LoginController", ['$scope', '$routeParams', '$location', 'DataService', '$rootScope',
-function ($scope, $routeParams, $location, dataService, $rootScope) {
+app.controller("LoginController", 
+  function ($scope, $routeParams, $location, DataService, $rootScope, SessionService, AuthorizationService) {
   $scope.pageTitle = "Welcome to CMS DEX";
   $scope.loggedIn = false;
-  
+  $scope.users = [];
+
   $scope.signIn = function() {
-    if ($scope.username === 'cms' || $scope.username === 'state') {
-      
-      $scope.loggedIn = true;    
-      $rootScope.$broadcast('loggedIn');
-      var userId;
-      if ($scope.username === 'cms') {
-        userId = 2;
-      } else if ($scope.username === 'state') {
-        userId = 4;
-      }
-      dataService.getUser(userId).then(function(data){
-        $rootScope.$broadcast('gotUser', data);
-      })
-    }
-    $location.path('/actions');  
+    $scope.loggedIn = true;    
+    $rootScope.$broadcast('loggedIn');
+
+    SessionService.currentUser = $scope.user;
+    AuthorizationService.assignPermissions();
+    if (SessionService.currentUser !== null)
+      $location.path('/actions');  
   }
 
   //set watcher on log out link 
   var logOutBtn = angular.element(document.querySelectorAll('#log-out-btn')[0]);
   logOutBtn.on('click', function(){
+    SessionService.currentUser = null;
     $rootScope.$broadcast('loggedOut');
   })
   
@@ -45,4 +39,8 @@ function ($scope, $routeParams, $location, dataService, $rootScope) {
     $location.path('/');
   })
 
-}]);
+  DataService.getAllUsers().then(function(data) { 
+    $scope.users = data;
+  });
+
+});
