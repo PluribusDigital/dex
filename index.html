@@ -61,27 +61,7 @@
       </header>
 
       <!--Sidebar-->
-      <div class="sidebar-container ng-class: {'hidden': !loggedIn}">
-        <aside class="sidebar">
-          <span class="user-icon">
-            <i class="gi gi-user"></i>
-          </span>
-          <ul class="usa-sidenav-list">
-            <li>
-              <a class="usa-current" href="#/actions">Actions</a>
-            </li>
-            <li>
-              <a href="#/reports">Reports</a>
-            </li>
-            <li>
-              <a href="#/settings">Settings</a>
-            </li>
-            <li>
-              <a href="#/">Log Out</a>
-            </li>
-          </ul>
-        </aside>
-      </div>
+      <div sidebar></div>
 
       <!-- MAIN VIEW -->
       <section class="usa-section">
@@ -111,6 +91,7 @@
   <script type="text/javascript" language="javascript" src="js/controllers/actionsCtrl.js" charset="utf-8"></script>
   <script type="text/javascript" language="javascript" src="js/controllers/providersCtrl.js" charset="utf-8"></script>
   <script type="text/javascript" language="javascript" src="js/directives/directives.js" charset="utf-8"></script>  
+  <script type="text/javascript" language="javascript" src="js/directives/sidebar.js" charset="utf-8"></script>  
   <script type="text/javascript" language="javascript" src="js/services/DataService.js" charset="utf-8"></script>
   </body>
 

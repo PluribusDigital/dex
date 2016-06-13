@@ -56,8 +56,21 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 	margin: 45px auto 10px;
 }
 
+.usa-sidenav-list span {
+  border: none;
+  color: #212121;
+  display: block;
+  font-family: "Source Sans Pro","Helvetica Neue","Helvetica","Roboto","Arial",sans-serif;
+  line-height: 1;
+  padding: 1rem 1rem 1rem 1.8rem;
+}
+
 .hidden {
 	display: none;
+}
+
+#log-out-btn {
+	cursor: pointer;
 }
 
 /* -- Sign In -- */

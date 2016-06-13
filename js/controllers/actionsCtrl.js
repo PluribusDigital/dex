@@ -14,5 +14,6 @@ function ($scope, $routeParams, $location, dataService, $rootScope) {
     //Listen for user from login
     $rootScope.$on('gotUser', function(event, data) {
     	$scope.user = data;
+    	$scope.loggedIn = true;
     })
 }]);

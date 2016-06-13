@@ -5,12 +5,9 @@ function ($scope, $routeParams, $location, dataService, $rootScope) {
   
   $scope.signIn = function() {
     if ($scope.username === 'cms' || $scope.username === 'state') {
-      $location.path('/actions');
-      var el = document.querySelectorAll('.sidebar-container')[0];
-      angular.element(el).removeClass('hidden');
-      var main = angular.element(document.querySelector('.usa-section'));
-      main.addClass('with-sidebar');
-      $scope.loggedIn = true;
+      
+      $scope.loggedIn = true;    
+      $rootScope.$broadcast('loggedIn');
       var userId;
       if ($scope.username === 'cms') {
         userId = 2;
@@ -21,6 +18,31 @@ function ($scope, $routeParams, $location, dataService, $rootScope) {
         $rootScope.$broadcast('gotUser', data);
       })
     }
+    $location.path('/actions');  
   }
+
+  //set watcher on log out link 
+  var logOutBtn = angular.element(document.querySelectorAll('#log-out-btn')[0]);
+  logOutBtn.on('click', function(){
+    $rootScope.$broadcast('loggedOut');
+  })
+  
+
+  //Handle logged in behavior 
+  $rootScope.$on('loggedIn', function(event, data){
+    var el = document.querySelectorAll('.sidebar-container')[0];
+    angular.element(el).removeClass('hidden');
+    var main = angular.element(document.querySelector('.usa-section'));
+    main.addClass('with-sidebar');
+  })
+
+  //Handle logged out behavior 
+  $rootScope.$on('loggedOut', function(event, data){
+    var el = document.querySelectorAll('.sidebar-container')[0];
+    angular.element(el).addClass('hidden');
+    var main = angular.element(document.querySelector('.usa-section'));
+    main.removeClass('with-sidebar');
+    $location.path('/');
+  })
 
 }]);
