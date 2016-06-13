@@ -1,94 +1,42 @@
+// Simple URL searches in ES...
+// http://ec2-52-27-189-225.us-west-2.compute.amazonaws.com/es/uspto/trademarkapp/_search?q=pepsi
+// http://ec2-52-27-189-225.us-west-2.compute.amazonaws.com/es/uspto/trademarkapp/_search?q=ibm
+// (As you begin to consume the data, you will want to understand the field types are and whether they have been analyzed or not.  
+// This endpoint will show the mapping for that index/type:  http://ec2-52-27-189-225.us-west-2.compute.amazonaws.com/es/uspto/trademarkapp/_mapping 
+// Depending on the types of queries we may want to fine tune some of these fields and/or duplicate them with different types of analysis.
+
 app.factory('DataService',
-    function ($http, $timeout, $q, $http) {
+    function ($http) {
+        'use strict';
 
         var service = {
-            baseUrl: 'https://cmsdex-api.540.co/',
 
-            _get: function(url, params) {
-                var deferred = $q.defer();
+            // baseUrl: 'http://ec2-52-27-189-225.us-west-2.compute.amazonaws.com/es/uspto/trademarkapp/_search',
 
-                $http.get(url, params).then(function (response) {
-                    deferred.resolve(response.data);
-                }, function (response) {
-                    console.log('error when calling ' + url);
-                    console.log(response);
-                    deferred.reject();
-                })
+            // error: function (response) {
+            //     console.log('error when calling Search API');
+            //     console.log(response);
+            //     return [];
+            // },
 
-                return deferred.promise;
-            },
+            // searchSuccess: function (response) {
+            //     var results = response.data.hits.hits.map( function(obj){
+            //         var rObj = obj._source['case-file'];
+            //         rObj._score = obj._score;
+            //         return rObj;
+            //     } );
+            //     return results;
+            // },
 
-            getAcknowledgements: function (id) {
-                return this._get(this.baseUrl + "actions/" + id + "/acknowledgements", {});
-            },
-
-            getAllActions: function () {
-                return this._get(this.baseUrl + "actions/", {});
-            },
-
-            getAction: function (id) {
-                return this._get(this.baseUrl + "actions/" + id, {});
-            },
-
-            getAllAddresses: function () {
-                return this._get(this.baseUrl + "addresses/", {});
-            },
-
-            getAddress: function (id) {
-                return this._get(this.baseUrl + "addresses/" + id, {});
-            },
-
-            getAllAttachments: function () {
-                return this._get(this.baseUrl + "attachments/", {});
-            },
-
-            getAttachment: function (id) {
-                return this._get(this.baseUrl + "attachments/" + id, {});
-            },
-
-            getAllProviders: function () {
-                return this._get(this.baseUrl + "providers/", {});
-            },
-
-            getProvider: function (id) {
-                return this._get(this.baseUrl + "providers/" + id, {});
-            },
-
-            getAllStates: function () {
-                return this._get(this.baseUrl + "states/", {});
-            },
-
-            getAllUsers: function () {
-                return this._get(this.baseUrl + "users/", {});
-            },
-
-            getUser: function (id) {
-                return this._get(this.baseUrl + "users/" + id, {});
-            },
-
-            //searchWithText: function (text, page) {
-            //    var params = {
-            //        "page": (page || 1),
-            //        "per_page": 20
-            //    };
-            //    if (text) {
-            //        params.search_fields = "cac,title,office,division,branch,pacode,docketcode";
-            //        params.search = text;
-            //    }
-
-            //    var deferred = $q.defer();
-
-            //    $http.get("http://fathomless-fjord-7794.herokuapp.com/api/cacs", { "params": params }).then(function (response) {
-            //        var mapped = response.data.data.map(fjordMap);
-            //        deferred.resolve(mapped);
-            //    }, function (response) {
-            //        console.log('error when calling cacs endpoint');
-            //        console.log(response);
-            //        deferred.reject();
-            //    })
-
-            //    return deferred.promise;
-            //}
+            // // These methods encapsulate API calls
+            // stringSearch: function (val) {
+            //     return $http.get(this.baseUrl, {
+            //         q: "pepsi"
+            //         // "query": {
+            //         //     "serial-number": val
+            //         // }
+            //     }).then(this.searchSuccess, this.error);
+            // },
 
         };
 

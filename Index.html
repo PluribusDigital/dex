@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" ng-app="dex" >
 
@@ -58,35 +59,23 @@
           </div>
         </div>
 
-      </header>
+        <section class="usa-banner">
+          <div class="usa-grid">
+            <nav>
+              <a class="usa-banner-link-top" href="#">About this Prototype</a>
+            </nav>
+            <div class="usa-banner-content" id="main-content">
+              <h1>{{ pageTitle }}</h1>
+            </div>
+          </div>
+        </section>
 
-      <!--Sidebar-->
-      <div class="sidebar-container ng-class: {'hidden': !loggedIn}">
-        <aside class="sidebar">
-          <span class="user-icon">
-            <i class="gi gi-user"></i>
-          </span>
-          <ul class="usa-sidenav-list">
-            <li>
-              <a class="usa-current" href="#/actions">Actions</a>
-            </li>
-            <li>
-              <a href="#/reports">Reports</a>
-            </li>
-            <li>
-              <a href="#/settings">Settings</a>
-            </li>
-            <li>
-              <a href="#/">Log Out</a>
-            </li>
-          </ul>
-        </aside>
-      </div>
+      </header>
 
       <!-- MAIN VIEW -->
       <section class="usa-section">
         <div class="usa-grid">
-          <div ng-view class="usa-banner-content" id="main-content-container">
+          <div ng-view class="usa-banner-content" id="main-content">
           </div>
         </div>
       </section>
@@ -107,11 +96,6 @@
 
   <!-- JS App -->
   <script type="text/javascript" language="javascript" src="js/app.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="js/controllers/loginCtrl.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="js/controllers/actionsCtrl.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="js/controllers/actionShowCtrl.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="js/controllers/providersCtrl.js" charset="utf-8"></script>
-  <script type="text/javascript" language="javascript" src="js/directives/directives.js" charset="utf-8"></script>  
   <script type="text/javascript" language="javascript" src="js/services/DataService.js" charset="utf-8"></script>
   </body>
 

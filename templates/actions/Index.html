@@ -1,7 +1,3 @@
-<div class="usa-banner-content" id="main-content">
-  <h1>{{ pageTitle }}</h1>
-    <a class="usa-button usa-button-primary create-btn" href="#/create-action">Create new action</a>
-</div>
 <table class="usa-table-borderless">
   <thead>
     <tr>
@@ -14,18 +10,18 @@
   </thead>
   <tbody>
     <tr ng-repeat="action in actions">
-      <td><a href="#/actions/{{action.id}}">
-        <span class="usa-label-big">
-          {{action.action_type}}
-        </span></a></td>
-      </td>
-      <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name }}</a></td>
-      <td>{{ action.created_timestamp | date:'shortDate' }}</td>
-      <td>{{ action.state.name }}</td>
       <td>
-        <i class="gi gi-check" ng-show="action.status=='published'"></i>
-        <i class="gi gi-file-text-o" ng-show="action.status=='under_review'"></i>
-        {{ action.status | unsnake | titlecase }}
+        <span class="usa-label-big">
+          {{action.actionName}}
+        </span>
+      </td>
+      <td>{{ action.providerName }}</td>
+      <td>{{ action.date }}</td>
+      <td>{{ action.source }}</td>
+      <td>
+        <i class="gi gi-check" ng-show="action.statusName=='Published'"></i>
+        <i class="gi gi-file-text-o" ng-show="action.statusName=='Review'"></i>
+        {{ action.statusName }}
       </td>
     </tr>
   </tbody>
