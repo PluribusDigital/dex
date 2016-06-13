@@ -1,76 +1,43 @@
 
 <div class="usa-grid">
-
-  <!-- Basic info & ACTIONS -->
-  <div class="usa-width-two-thirds">
-
-    <!-- Provider Heading -->
-    <div class="dex-provider-info">
-      <h3>Provider: {{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
-      <div>NPI: {{provider.npi}}</div>
-      <address dex-address="provider.mailing_address"></address>
-    </div>
-
-    <h3>Actions</h3>
-    <!-- Actions -->
-    <div class="usa-grid dex-action-card" ng-repeat="action in actions">
-      <div class="usa-width-two-thirds" style="">
-        <i class="gi gi-times" ng-show="action.action_type=='terminate'"></i>
-        <i class="gi gi-recycle" ng-show="action.action_type=='reinstate'"></i>
-        <span ng-repeat="reason in action.reason">
-          <span class="usa-label-big">{{reason}}</span>
-        </span>
-        <div>{{action.state.name}}</div>
-        <div>{{action.status | titlecase}} | Last Updated: {{action.lastupdated_timestamp | date : 'M/d/yy' }}</div>
-        <address dex-address="action.practice_address"></address>
-      </div>
-      <div class="usa-width-one-third" style="text-align:center">
-        <div ng-repeat="attachment in action.attachments">
-          <a ng-href="{{attachment.url}}">
-            <i class="gi gi-file-text" style="font-size:3em;"></i>
-            <br><span class="dex-small">{{attachment.filename}}</span>
-          </a>
-        </div>
-      </div>
-    </div>
+  
+  <!-- Provider Heading -->
+  <div class="dex-provider-info">
+    <h3>Provider: {{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
+    <div>NPI: {{provider.npi}}</div>
+    <address dex-address="provider.mailing_address"></address>
   </div>
 
-  <!-- INVENTORY -->
-  <div class="usa-width-one-third">
-    <div class="usa-accordion">
-      <ul class="usa-unstyled-list">
-        <li>
-          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="collapsible-0">
-            State Inventory Check
-          </button>
-          <div id="collapsible-0" aria-hidden="false" class="usa-accordion-content">
-            <table class="usa-table-borderless dex-state-inventory-table">
-              <thead>
-                <tr>
-                  <th scope="col">State</th>
-                  <th scope="col">Found</th>
-                  <th scope="col">No Match</th>
-                  <th scope="col">Not Responded</th>
-                </tr>
-                <tr>
-                  <th>TOTALS</th>
-                  <th>2</th>
-                  <th>30</th>
-                  <th>28</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="state in usStates">
-                  <th scope="row">{{state}}</th>
-                  <td><i class="gi gi-check-square-o"></i></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <h3>Actions</h3>
+  <table class="usa-table-borderless">
+    <thead>
+      <tr>
+        <th scope="col">Action</th>
+        <th scope="col">Reasons</th>
+        <th scope="col">Date</th>
+        <th scope="col">Source</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="action in actions">
+        <td><a href="#/actions/{{action.id}}">
+          <span class="usa-label-big">
+            {{action.action_type | unsnake}}
+          </span></a></td>
+        </td>
+        <td><span ng-repeat="reason in action.reason">
+          <span>{{reason | titlecase}}{{$last ? '' : ', '}}</span>
+        </span></td>
+        <td>{{ action.created_timestamp | date:'shortDate' }}</td>
+        <td>{{ action.state.name }}</td>
+        <td>
+          <i class="gi gi-check" ng-show="action.status=='published'"></i>
+          <i class="gi gi-file-text-o" ng-show="action.status=='under_review'"></i>
+          {{ action.status | unsnake | titlecase }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>

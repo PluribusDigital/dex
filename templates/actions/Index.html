@@ -14,12 +14,12 @@
   </thead>
   <tbody>
     <tr ng-repeat="action in actions">
-      <td>
+      <td><a href="#/actions/{{action.id}}">
         <span class="usa-label-big">
           {{action.action_type}}
-        </span>
+        </span></a></td>
       </td>
-      <td><a href="#/providers/{{action.id}}">{{ action.provider.name }}</a></td>
+      <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name }}</a></td>
       <td>{{ action.created_timestamp | date:'shortDate' }}</td>
       <td>{{ action.state.name }}</td>
       <td>
