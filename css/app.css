@@ -80,5 +80,10 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 
 .dex-small {
   font-size: 0.8em;
+}
 
+/* -- Modal Styles -- */
+.my-modals {
+	padding: 0px 10% 20px;
+	text-align: center;
 }

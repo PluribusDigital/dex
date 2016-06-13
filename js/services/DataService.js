@@ -66,6 +66,10 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "users/" + id, {});
             },
 
+            search: function (input) {
+                return this._get(this.baseUrl + "_search?q=" + input, {});
+            },
+
             //searchWithText: function (text, page) {
             //    var params = {
             //        "page": (page || 1),

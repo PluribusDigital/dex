@@ -7,8 +7,8 @@
       <form class="usa-search usa-search-big">
         <div role="search">
           <label for="search-npi">NPI</label>
-          <input id="search-npi" type="search" name="search">
-          <button type="submit">
+          <input id="search-npi" type="search" name="search" ng-model="provider.npi">
+          <button type="submit" ng-click="searchNPI(provider.npi)">
             <span class="usa-search-submit-text">Search</span>
           </button>
         </div>
