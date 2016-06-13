@@ -3,6 +3,7 @@ app.factory('DataService',
 
         var service = {
             baseUrl: 'https://cmsdex-api.540.co/',
+            npiUrl: 'https://npiregistry.cms.hhs.gov/api/',
 
             _get: function(url, params) {
                 var deferred = $q.defer();

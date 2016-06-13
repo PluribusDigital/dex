@@ -87,3 +87,7 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 	padding: 0px 10% 20px;
 	text-align: center;
 }
+
+.found-modal li {
+	list-style-type: none;
+}

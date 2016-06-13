@@ -6,6 +6,7 @@ var app = angular.module('dex', [
 // 'angular-flash.flash-alert-directive', 'ui.bootstrap'
 
 app.config(function ($routeProvider, $locationProvider) {
+
     return $routeProvider.when('/', {
         templateUrl: "templates/login/login.html",
         controller: 'LoginController'
