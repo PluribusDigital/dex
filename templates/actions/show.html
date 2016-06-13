@@ -1,0 +1,73 @@
+<div class="usa-grid">
+
+  <!-- Basic info & ACTIONS -->
+  <div class="usa-width-one-half">
+    <h2>{{pageTitle}}</h2>
+    <div>
+        <span class="usa-label-big">{{action.action_type}}</span>
+    </div>
+    <h3>Source: {{action.state.name}}</h3>
+    <div>{{action.status | titlecase}} | Last Updated: {{action.lastupdated_timestamp | date : 'M/d/yy' }}</div>
+
+    <div class="dex-provider-info">
+      <h3>Provider: <a ng-href="#/providers/{{action.provider.id}}">{{action.provider.name}}</a> <small>({{action.provider.type | titlecase}})</small></h3>
+      <address dex-address="action.practice_address"></address>
+    </div>
+
+    <div class="dex-provider-info">
+      <span ng-repeat="reason in action.reason">
+        <span class="usa-label-big">{{reason}}</span>
+      </span>
+    </div>
+
+    <div>
+        <br />
+        <div ng-repeat="attachment in action.attachments">
+          <a ng-href="{{attachment.url}}">
+            <i class="gi gi-file-text" style="font-size:3em;"></i>
+            <br><span class="dex-small">{{attachment.filename}}</span>
+          </a>
+        </div>
+    </div>
+
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="usa-width-one-half">
+    <div class="usa-accordion">
+      <ul class="usa-unstyled-list">
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="collapsible-0">
+            State Inventory Check
+          </button>
+          <div id="collapsible-0" aria-hidden="false" class="usa-accordion-content">
+            <table class="usa-table-borderless dex-state-inventory-table">
+              <thead>
+                <tr>
+                  <th scope="col">State</th>
+                  <th scope="col">Found</th>
+                  <th scope="col">No Match</th>
+                  <th scope="col">Not Responded</th>
+                </tr>
+                <tr>
+                  <th>TOTALS</th>
+                  <th>{{totals.found}}</th>
+                  <th>{{totals.notFound}}</th>
+                  <th>{{totals.notResponded}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="state in inventory | orderBy:'abbreviation'">
+                  <th scope="row"><span title={{state.name}}>{{state.abbreviation}}</span></th>
+                  <td><i class="gi gi-check-square-o" ng-show="state.status=='found'"></i></td>
+                  <td><i class="gi gi-check-square-o" ng-show="state.status=='not-found'"></i></td>
+                  <td><i class="gi gi-check-square-o" ng-show="state.status=='not-responded'"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
