@@ -18,8 +18,8 @@
       <form class="usa-search usa-search-big">
         <div role="search">
           <label for="search-name">Provider Name</label>
-          <input id="search-name" type="search" name="search">
-          <button type="submit">
+          <input id="search-name" type="search" name="search" ng-model="provider.name">
+          <button type="submit" ng-click="searchName(provider.name)">
             <span class="usa-search-submit-text">Search</span>
           </button>
         </div>

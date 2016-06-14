@@ -23,10 +23,13 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'
     }).when('/reports', {
-        template: "<h1>reports</h1>",
+        template: "<h1>Reports</h1>",
         controller: 'ProviderController'
+    }).when('/results', {
+        templateUrl: "templates/providers/results.html",
+        controller: 'ResultsController'
     }).when('/settings', {
-        template: "<h1>settings</h1>",
+        template: "<h1>Settings</h1>",
         controller: 'ProviderController'
     }).otherwise({redirectTo:'/'})
 });

@@ -1,9 +1,9 @@
 <div class="found-modal my-modals usa-grid">
 	<h2>Found Provider</h2>
-	<p>Name: {{provider.name}}</p>
-	<p>NPI: {{provider.npi}}</p>
-	<p>Type: {{provider.type}}</p>
-	<p>Mailing Address:</p>
-	<p>{{provider.mailing_address.street_line1}} {{provider.mailing_address.street_line2}} {{provider.mailing_address.street_line3}}<br/>{{provider.mailing_address.city}}, {{provider.mailing_address.state}}</p>
-	<button ng-click="ok()">Close</button>
+	<div class="dex-provider-info">
+    <h3>{{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
+    <div>NPI: {{provider.npi}}</div>
+    <address dex-address="provider.mailing_address"></address>
+  </div><br/>
+	<button>Use</button><button class="usa-button-secondary" ng-click="cancel()">Cancel</button>
 </div>
