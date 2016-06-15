@@ -8,7 +8,7 @@ app.controller("LoginController",
     $scope.loggedIn = true;    
     $rootScope.$broadcast('loggedIn');
 
-    SessionService.currentUser = $scope.user;
+    SessionService.setUser($scope.user);
     AuthorizationService.assignPermissions();
     if (SessionService.currentUser !== null)
       $location.path('/actions');  

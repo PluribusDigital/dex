@@ -19,6 +19,9 @@ app.config(function ($routeProvider, $locationProvider) {
     }).when('/create-action', {
         templateUrl: "templates/actions/create-action.html",
         controller: 'ActionsController'
+    }).when('/create-action/form', {
+        templateUrl: "templates/actions/create-action-form.html",
+        controller: 'ResultsController'
     }).when('/providers/:id', {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'

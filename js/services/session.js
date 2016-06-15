@@ -46,7 +46,13 @@
 app.factory('SessionService', function ($rootScope) {
     var service = {
         currentUser: null,
-        changedEvent: 'gotUser'
+        changedEvent: 'gotUser',
+        setUser: function(user){
+            return this.currentUser = user;
+        },
+        getUser: function(user){
+            return this.currentUser;
+        }
     };
 
     // Broadcast an event when the current user changes   

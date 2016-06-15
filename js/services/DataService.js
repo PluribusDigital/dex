@@ -3,7 +3,6 @@ app.factory('DataService',
 
         var service = {
             baseUrl: 'https://cmsdex-api.540.co/',
-            npiUrl: 'https://npiregistry.cms.hhs.gov/api/',
 
             _get: function(url, params) {
                 var deferred = $q.defer();
@@ -29,6 +28,14 @@ app.factory('DataService',
 
             getAction: function (id) {
                 return this._get(this.baseUrl + "actions/" + id, {});
+            },
+
+            createAction: function(action, user) {
+                $http.post(this.baseUrl + "actions/", action, {headers: {
+                    user_id: user
+                }}).success(function(data){
+                    console.log(data)
+                }).error(function(err){console.log(err)})
             },
 
             getAllAddresses: function () {

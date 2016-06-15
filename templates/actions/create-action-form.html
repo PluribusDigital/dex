@@ -1,0 +1,24 @@
+<div class="usa-grid">
+	<h1>Create New Action</h1>
+	<div class="dex-provider-info" ng-repeat="provider in results.providers">
+    <h3>{{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
+    <div>NPI: {{provider.npi}}</div>
+    <address dex-address="provider.mailing_address"></address>
+  </div>
+  <hr>
+  <form>
+	  <label for="action-type">Action Type</label>
+	  <select name="action-type" id="action-type" ng-model="action.type">
+	    <option value="terminate">Terminate</option>
+	    <option value="reinstate">Reinstate</option>
+	  </select>
+	  <label for="reason">Reason</label>
+	  <select multiple name="reason" id="reason" ng-model="action.reason">
+	    <option value="fraud">Fraud</option>
+	    <option value="abuse">Abuse</option>
+	  </select>
+	  <label for="attachment">Attachment</label>
+	  <input name="attachment" id="attachment" type="file" ng-model="action.attachment">
+	  <button ng-click="createAction()">Create</button>
+	</form>
+</div>
