@@ -66,6 +66,10 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "states/", {});
             },
 
+            getStateAcknowledgements: function (id) {
+                return this._get(this.baseUrl + "states/" + id + "/acknowledgements", {});
+            },
+
             getAllUsers: function () {
                 return this._get(this.baseUrl + "users/", {});
             },

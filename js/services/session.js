@@ -1,16 +1,13 @@
 ﻿app.factory('AuthorizationService', function (SessionService) {
     return {
         roles: ['admin', 'cms_user', 'state_user'],
-        full: ['create', 'read', 'update', 'delete'],
-        readOnly: ['read'],
-        author: ['update', 'read'],
-        objects: [],
+        objects: ['action', 'acknowledgement', 'provider'],
 
         hasPermission: function (operation, thing) {
             if (SessionService.currentUser == null )
                 return false;
 
-            if ( $.inArray(SessionService.currentUser.role, this.roles) == -1)
+            if ( $.inArray(SessionService.currentUser.type, this.roles) == -1)
                 return false;
 
             // Always allow read-only access
@@ -30,7 +27,7 @@
             if (SessionService.currentUser == null)
                 return false;
 
-            return SessionService.currentUser.role.toLowerCase() == role.toLowerCase();
+            return SessionService.currentUser.type.toLowerCase() == role.toLowerCase();
         },
 
         assignPermissions: function () {
