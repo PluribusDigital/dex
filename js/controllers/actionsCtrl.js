@@ -1,10 +1,10 @@
-app.controller("ActionsController", ['$scope', '$routeParams', '$location', '$rootScope', 'DataService', '$uibModal', 'SessionService', 'ResultsService',
-function ($scope, $routeParams, $location, $rootScope, dataService, $uibModal, SessionService, ResultsService) {
+app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService',
+function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService) {
+
     $scope.pageTitle = "Review Feed";
-    $scope.actions = [];
+    $scope.adminActions = [];
 
     $scope.searchNPI = function(npi) {   
-    	console.log('searching for ' + npi);	
     	dataService.search(npi).then(function(res){
     		$scope.results = res;
     		// if found in our system
@@ -76,22 +76,27 @@ function ($scope, $routeParams, $location, $rootScope, dataService, $uibModal, S
     //Search by name
     $scope.searchName = function(name) {
     	console.log('searching for ' + name);	
-    	dataService.search(name).then(function(res){
+    	DataService.search(name).then(function(res){
     		console.log(res)
     	})
     }
 
     // Fetch Handlers
-    $scope.onActionsLoaded = function (data) {
-        $scope.actions = data;
+    $scope.onAdminActionsLoaded = function (data) {
+        $scope.adminActions = data;
+        $scope.pageTitle = "Review Feed - Admin";
+    };
+
+    $scope.onStateActionsLoaded = function (data) {
+        $scope.stateActions = data.acknowledgements.pending;
+        $scope.pageTitle = "Review Feed - " + data.name;
     };
 
     // Start fetching the data from the REST endpoints
-    dataService.getAllActions().then($scope.onActionsLoaded);
-
-    //Listen for user from login
-    $rootScope.$on('gotUser', function(event, data) {
-    	$scope.user = data;
-    	$scope.loggedIn = true;
-    })
+    if( !AuthorizationService.inRole('state_user') )
+        dataService.getAllActions().then($scope.onAdminActionsLoaded);
+    else {
+        var id = SessionService.getUser().state_id;
+        dataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
+    }
 }]);

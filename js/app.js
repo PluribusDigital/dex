@@ -67,3 +67,19 @@ app.filter('titlecase', function() {
         });
     }
 });
+
+// Register a hook to see if the user is logged on, and redirect if they are not
+app.run(function ($rootScope, $location, SessionService) {
+    'use strict';
+
+    $rootScope.$on('$routeChangeStart', function (ev, to, toParams, from, fromParams) {
+        var url = $location.url();
+
+        // if route requires auth and user is not logged in
+        if (!SessionService.getUser() && url != '/') {
+            // redirect back to login
+            ev.preventDefault();
+            $location.path('/');
+        }
+    });
+});

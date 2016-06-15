@@ -65,7 +65,7 @@
       <div sidebar></div>
 
       <!-- MAIN VIEW -->
-      <section class="usa-section">
+      <section class="usa-section" ng-controller="LoginController" ng-class="{'with-sidebar': showSidebar}">
         <div class="usa-grid">
           <div ng-view class="usa-banner-content" id="main-content-container">
           </div>
