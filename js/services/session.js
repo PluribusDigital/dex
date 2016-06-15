@@ -4,18 +4,19 @@
         objects: ['action', 'acknowledgement', 'provider'],
 
         hasPermission: function (operation, thing) {
-            if (SessionService.currentUser == null )
+            var user = SessionService.getUser();
+            if (user == null )
                 return false;
 
-            if ( $.inArray(SessionService.currentUser.type, this.roles) == -1)
+            if ( $.inArray(Suser.type, this.roles) == -1)
                 return false;
 
             // Always allow read-only access
-            if( SessionService.currentUser.permissions == null )
+            if( user.permissions == null )
                 return operation == 'read'
 
             // Get the user's permissions for the object
-            var objectPermission = SessionService.currentUser.permissions[thing.toLowerCase()];
+            var objectPermission = user.permissions[thing.toLowerCase()];
             if (objectPermission == null)
                 return false;
 
@@ -24,10 +25,11 @@
         },
 
         inRole: function (role) {
-            if (SessionService.currentUser == null)
+            var user = SessionService.getUser();
+            if (user == null )
                 return false;
 
-            return SessionService.currentUser.type.toLowerCase() == role.toLowerCase();
+            return user.type.toLowerCase() == role.toLowerCase();
         },
 
         assignPermissions: function () {
@@ -35,7 +37,11 @@
 
             /* TODO */
 
-            SessionService.currentUser.permissions = permissions;
+            var user = SessionService.getUser();
+            if (user == null )
+                return;
+            user.permissions = permissions;
+            SessionService.setUser(user);
         }
     };
 });
@@ -45,10 +51,16 @@ app.factory('SessionService', function ($rootScope) {
         currentUser: null,
         changedEvent: 'gotUser',
         setUser: function(user){
+            localStorage.user = JSON.stringify(user);
             return this.currentUser = user;
         },
-        getUser: function(user){
+        getUser: function(){
+            if( this.currentUser == null && localStorage.user != null)
+                this.currentUser = JSON.parse(localStorage.user);
             return this.currentUser;
+        },
+        hasUser: function() {
+            return this.currentUser != null;
         }
     };
 

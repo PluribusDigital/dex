@@ -79,7 +79,7 @@ app.run(function ($rootScope, $location, SessionService) {
         var url = $location.url();
 
         // if route requires auth and user is not logged in
-        if (!SessionService.currentUser && url != '/') {
+        if (!SessionService.getUser() && url != '/') {
             // redirect back to login
             ev.preventDefault();
             $location.path('/');
