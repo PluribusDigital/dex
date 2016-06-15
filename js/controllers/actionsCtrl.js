@@ -1,11 +1,11 @@
-app.controller("ActionsController", ['$scope', '$routeParams', '$location', '$rootScope', 'DataService', '$uibModal',
-function ($scope, $routeParams, $location, $rootScope, dataService, $uibModal) {
+app.controller("ActionsController", function ($scope, $routeParams, $rootScope, $location, DataService, $uibModal, 
+                                              SessionService, AuthorizationService) {
     $scope.pageTitle = "Review Feed";
-    $scope.actions = [];
+    $scope.adminActions = [];
 
     $scope.searchNPI = function(npi) {   
     	console.log('searching for ' + npi);	
-    	dataService.search(npi).then(function(res){
+    	DataService.search(npi).then(function(res){
     		$rootScope.results = res;
     		// if found in our system
     		if (res.providers && res.providers.length === 1) {
@@ -33,22 +33,33 @@ function ($scope, $routeParams, $location, $rootScope, dataService, $uibModal) {
     //Search by name
     $scope.searchName = function(name) {
     	console.log('searching for ' + name);	
-    	dataService.search(name).then(function(res){
+    	DataService.search(name).then(function(res){
     		console.log(res)
     	})
     }
 
     // Fetch Handlers
-    $scope.onActionsLoaded = function (data) {
-        $scope.actions = data;
+    $scope.onAdminActionsLoaded = function (data) {
+        $scope.adminActions = data;
+        $scope.pageTitle = "Review Feed - Admin";
+    };
+
+    $scope.onStateActionsLoaded = function (data) {
+        $scope.stateActions = data.acknowledgements.pending;
+        $scope.pageTitle = "Review Feed - " + data.name;
     };
 
     // Start fetching the data from the REST endpoints
-    dataService.getAllActions().then($scope.onActionsLoaded);
+    if( !AuthorizationService.inRole('state_user') )
+        DataService.getAllActions().then($scope.onAdminActionsLoaded);
+    else {
+        var id = SessionService.currentUser.state_id;
+        DataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
+    }
 
     //Listen for user from login
     $rootScope.$on('gotUser', function(event, data) {
     	$scope.user = data;
     	$scope.loggedIn = true;
     })
-}]);
+});
