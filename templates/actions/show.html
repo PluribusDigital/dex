@@ -1,34 +1,67 @@
 <div class="usa-grid">
 
+  <h2>{{pageTitle}} <small><span class="usa-label">{{action.action_type}}</span></small></h2>
+
   <!-- Basic info & ACTIONS -->
   <div class="usa-width-one-half">
-    <h2>{{pageTitle}}</h2>
-    <div>
-        <span class="usa-label-big">{{action.action_type}}</span>
-    </div>
-    <h3>Source: {{action.state.name}}</h3>
-    <div>{{action.status | titlecase}} | Last Updated: {{action.lastupdated_timestamp | date : 'M/d/yy' }}</div>
 
-    <div class="dex-provider-info">
-      <h3>Provider: <a ng-href="#/providers/{{action.provider.id}}">{{action.provider.name}}</a> <small>({{action.provider.type | titlecase}})</small></h3>
-      <address dex-address="action.practice_address"></address>
+    <div class="usa-accordion">
+      <ul class="usa-unstyled-list">
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="provider">
+            Provider: {{action.provider.name}}
+          </button>
+          <div id="provider" class="usa-accordion-content">
+            <a ng-href="#/providers/{{action.provider.id}}">{{action.provider.name}}</a> 
+            <small>({{action.provider.type | titlecase}})</small>
+            <address dex-address="action.practice_address"></address>
+          </div>
+        </li>
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="services">
+            Services
+          </button>
+          <div id="services" class="usa-accordion-content">
+            <span ng-repeat="service in action.provider.services">
+              {{service}}
+            </span> 
+          </div>
+        </li>
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="source">
+          Source: {{action.state.name}}
+          </button>
+          <div id="source" class="usa-accordion-content">
+            {{action.status | unsnake | titlecase}}<br />
+            Last Updated: {{action.lastupdated_timestamp | date : 'MM/dd/yyyy' }}
+          </div>
+        </li>
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="reasons">
+            Reasons
+          </button>
+          <div id="reasons" class="usa-accordion-content">
+            <span ng-repeat="reason in action.reason">
+              {{reason | titlecase}}
+            </span>
+          </div>
+        </li>
+        <li>
+          <button class="usa-button-unstyled" aria-expanded="true" aria-controls="attachments">
+            Attachments
+          </button>
+          <div id="attachments" class="usa-accordion-content">
+            <div ng-repeat="attachment in action.attachments">
+              <a ng-href="{{attachment.url}}">
+                <i class="gi gi-file-text" style="font-size:3em;"></i>
+                <br><span class="dex-small">{{attachment.filename}}</span>
+              </a>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <div class="dex-provider-info">
-      <span ng-repeat="reason in action.reason">
-        <span class="usa-label-big">{{reason}}</span>
-      </span>
-    </div>
-
-    <div>
-        <br />
-        <div ng-repeat="attachment in action.attachments">
-          <a ng-href="{{attachment.url}}">
-            <i class="gi gi-file-text" style="font-size:3em;"></i>
-            <br><span class="dex-small">{{attachment.filename}}</span>
-          </a>
-        </div>
-    </div>
 
   </div>
 
