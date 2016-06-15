@@ -53,13 +53,7 @@ app.controller("ActionsController", function ($scope, $routeParams, $rootScope, 
     if( !AuthorizationService.inRole('state_user') )
         DataService.getAllActions().then($scope.onAdminActionsLoaded);
     else {
-        var id = SessionService.currentUser.state_id;
+        var id = SessionService.getUser().state_id;
         DataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
     }
-
-    //Listen for user from login
-    $rootScope.$on('gotUser', function(event, data) {
-    	$scope.user = data;
-    	$scope.loggedIn = true;
-    })
 });
