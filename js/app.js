@@ -21,16 +21,13 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'ActionsController'
     }).when('/create-action/form', {
         templateUrl: "templates/actions/create-action-form.html",
-        controller: 'ResultsController'
+        controller: 'ActionsController'
     }).when('/providers/:id', {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'
     }).when('/reports', {
         template: "<h1>Reports</h1>",
         controller: 'ProviderController'
-    }).when('/results', {
-        templateUrl: "templates/providers/results.html",
-        controller: 'ResultsController'
     }).when('/settings', {
         template: "<h1>Settings</h1>",
         controller: 'ProviderController'

@@ -30,11 +30,19 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "actions/" + id, {});
             },
 
-            createAction: function(action, user) {
+            createAction: function(action, userId) {
                 $http.post(this.baseUrl + "actions/", action, {headers: {
+                    user_id: userId
+                }}).success(function(res){
+                    console.log(res)
+                }).error(function(err){console.log(err)})
+            },
+
+            deleteAction: function(id, user) {
+                $http.delete(this.baseUrl + "actions/" + id, {headers: {
                     user_id: user
                 }}).success(function(data){
-                    console.log(data)
+                    console.log(data);
                 }).error(function(err){console.log(err)})
             },
 
@@ -76,6 +84,10 @@ app.factory('DataService',
 
             search: function (input) {
                 return this._get(this.baseUrl + "_search?q=" + input, {});
+            },
+
+            searchNPI: function(npi) {
+                return this._get(this.baseUrl + "_npi?number=" + npi, {});
             },
 
             //searchWithText: function (text, page) {

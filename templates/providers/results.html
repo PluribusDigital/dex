@@ -1,7 +1,7 @@
 <div class="usa-grid">
 	<h1>Results</h1>
 	<div class="dex-provider-info" ng-repeat="provider in results.providers">
-    <h3>{{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
+    <h3>{{provider.name | titlecase}} <small ng-if="provider.type">({{provider.type | titlecase}})</small></h3>
     <div>NPI: {{provider.npi}}</div>
     <address dex-address="provider.mailing_address"></address>
     <button ng-click="setProvider(provider)">Use</button>

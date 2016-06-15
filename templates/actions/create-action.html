@@ -3,26 +3,25 @@
 		<h1>Create an Action</h1>
     <p>Use this form to create a new action. You can search for providers by NPI, name or address.</p>
 	</div>
-    <div class="usa-width-three-fourths">
-      <form class="usa-search usa-search-big">
-        <div role="search">
-          <label for="search-npi">NPI</label>
-          <input id="search-npi" type="search" name="search" ng-model="provider.npi">
-          <button type="submit" ng-click="searchNPI(provider.npi)">
-            <span class="usa-search-submit-text">Search</span>
-          </button>
-        </div>
-      </form>
-    </div>
-    <div class="usa-width-three-fourths">
-      <form class="usa-search usa-search-big">
-        <div role="search">
-          <label for="search-name">Provider Name</label>
-          <input id="search-name" type="search" name="search" ng-model="provider.name">
-          <button type="submit" ng-click="searchName(provider.name)">
-            <span class="usa-search-submit-text">Search</span>
-          </button>
-        </div>
-      </form>
-    </div>
+  <div class="usa-width-three-fourths">
+    <form class="usa-search usa-search-big">
+      <div role="search">
+        <label for="search-npi">NPI</label>
+        <input id="search-npi" type="search" name="search" ng-model="provider.npi">
+        <button type="submit" ng-click="searchNPI(provider.npi)">
+          <span class="usa-search-submit-text">Search</span>
+        </button>
+      </div>
+    </form>
   </div>
+</div>
+<hr />
+<div ng-if="results.providers">
+  <h2>Results</h2>
+  <div class="dex-provider-info" ng-repeat="provider in results.providers">
+    <h3>{{provider.name | titlecase}} <small ng-if="provider.type">({{provider.type | titlecase}})</small></h3>
+    <div>NPI: {{provider.npi}}</div>
+    <address dex-address="provider.mailing_address"></address>
+    <button ng-click="setProvider(provider)">Use</button>
+  </div>
+</div>

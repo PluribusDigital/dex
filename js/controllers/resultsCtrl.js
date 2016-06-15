@@ -3,9 +3,14 @@ app.controller("ResultsController", ['$scope', '$rootScope', '$location', 'Sessi
 		$scope.results = $rootScope.results;
 
 		$scope.setProvider = function(provider) {
-			$scope.provider = provider;
-			ResultsService.setSelected(provider);
-			$location.path('/create-action/form');
+			// Check if has an ID (is in our system already)
+			if (provider.id){
+				$scope.provider = provider;
+				ResultsService.setSelected(provider);
+				$location.path('/create-action/form');
+			} else { // if not in system, put in there
+				console.log(provider)
+			}
 		}
 
 		$scope.createAction = function() {

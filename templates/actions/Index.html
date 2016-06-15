@@ -25,7 +25,7 @@
       <td>
         <i class="gi gi-check" ng-show="action.status=='published'"></i>
         <i class="gi gi-file-text-o" ng-show="action.status=='under_review'"></i>
-        {{ action.status | unsnake | titlecase }}
+        {{ action.status | unsnake | titlecase }} <span ng-click="delete(action)">x</span>
       </td>
     </tr>
   </tbody>
