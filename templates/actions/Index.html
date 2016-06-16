@@ -17,9 +17,9 @@
   <tbody>
     <tr ng-repeat="action in adminActions | filter:'!published'">
       <td><a href="#/actions/{{action.id}}">
-        <span class="usa-label-big">
+        <span class="usa-label">
           {{action.action_type}}
-        </span></a></td>
+        </span></a>
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name }}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
@@ -36,30 +36,42 @@
       <th scope="col">Action</th>
       <th scope="col">Provider</th>
       <th scope="col">Date</th>
-      <th scope="col"></th>
+      <th scope="col">Source</th>
       <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="action in stateActions">
       <td><a href="#/actions/{{action.id}}">
-        <span class="usa-label-big">
+        <span class="usa-label">
           {{action.action_type}}
-        </span></a></td>
+        </span></a>
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name }}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
-      <td><a class="usa-button usa-button-outline" ng-click="alert('TODO')">Found</a></td>
-      <td><a class="usa-button usa-button-outline" ng-click="alert('TODO')">Not Found</a></td>
+      <td>{{ action.practice_address.state }}</td>  <!-- This is wrong, but the state record is not provided by the endpoint -->
+      <td>
+        <div ng-hide=action.response>
+          <a class="usa-button" ng-click="markFound(action.id)"> 
+            <i class="gi gi-check"></i>
+            Found
+          </a>
+          <a class="usa-button" ng-click="markNotFound(action.id)"> 
+            <i class="gi gi-times"></i>
+            Not Found
+          </a>
+        </div>
+        <div ng-show=action.response> 
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}" ng-click="markFound(action.id)"> 
+            <i class="gi gi-check"></i>
+            Found
+          </span>
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}" ng-click="markNotFound(action.id)"> 
+            <i class="gi gi-times"></i>
+            Not Found
+          </span>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
-
-<div class="usa-alert usa-alert-info">
-  <div class="usa-alert-body">
-    <h3 class="usa-alert-heading">About this Page</h3>
-    <p class="usa-alert-text">This page is for a the CMS reviewer to review a queue of actions, and also see recent completed/reviewed actions</p>
-  </div>
-</div>
-
-

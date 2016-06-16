@@ -2,7 +2,6 @@ app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'Dat
 function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService) {
 
     $scope.pageTitle = "Review Feed";
-    $scope.adminActions = [];
 
     $scope.searchNPI = function(npi) {   
     	dataService.search(npi).then(function(res){
@@ -86,7 +85,28 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     	DataService.search(name).then(function(res){
     		console.log(res)
     	})
-    }
+    };
+
+    $scope._findAction = function(collection, id) {
+        for (var i = 0; i < collection.length; i++) {
+            if(collection[i].id == id)
+                return collection[i];
+        };
+
+        return null;
+    };
+
+    $scope.markFound = function (id) {
+        var item = $scope._findAction($scope.stateActions, id);
+        if( item )
+            item.response = 'Found';
+    };
+
+    $scope.markNotFound = function (id) {
+        var item = $scope._findAction($scope.stateActions, id);
+        if( item )
+            item.response = 'Not Found';
+    };
 
     // Fetch Handlers
     $scope.onAdminActionsLoaded = function (data) {
