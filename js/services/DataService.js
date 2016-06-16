@@ -30,11 +30,11 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "actions/" + id, {});
             },
 
-            createAction: function(action, userId) {
+            createAction: function(action, userId, callback) {
                 $http.post(this.baseUrl + "actions/", action, {headers: {
                     user_id: userId
                 }}).success(function(res){
-                    console.log(res)
+                    callback(res)
                 }).error(function(err){console.log(err)})
             },
 
@@ -60,6 +60,18 @@ app.factory('DataService',
 
             getAttachment: function (id) {
                 return this._get(this.baseUrl + "attachments/" + id, {});
+            },
+
+            postAttachment: function(actionId, userId, attachment) {
+                console.log(attachment)
+                return $http.post(this.baseUrl + "attachments?action_id=" + actionId, attachment, {headers: {
+                    'user_id': userId,
+                    'Content-Type': undefined
+                }}).success(function(res){
+                    console.log('success')
+                }).error(function(err){
+                    console.log(err)
+                });
             },
 
             getAllProviders: function () {

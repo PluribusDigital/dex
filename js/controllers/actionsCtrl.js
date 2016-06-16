@@ -66,11 +66,18 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
         provider_id: $scope.provider.id,
         address_id: $scope.provider.mailing_address_id,
         //expiration_timestamp: date,
-        practice_address: $scope.provider.mailing_address,
+        //practice_address: $scope.provider.mailing_address,
         //attachments: ['']
       }
 
-      DataService.createAction(JSON.stringify(postData), user.id);
+      dataService.createAction(JSON.stringify(postData), user.id, function(res){
+        var actionId = res.id;
+        var files = angular.element( document.getElementById( 'attachment' ) )[0].files[0];
+        var fd = new FormData();
+        fd.append("attachment", files);
+        console.log(fd, files);
+        dataService.postAttachment(actionId, user.id, fd)
+      });
     }
 
     //Search by name
