@@ -91,3 +91,12 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 .found-modal li {
 	list-style-type: none;
 }
+
+/* -- Action Buttons -- */
+.dex-action-button-show-true {
+  visibility: visible;
+  color: #eee;
+}
+.dex-action-button-show-false {
+  visibility: hidden;
+}
