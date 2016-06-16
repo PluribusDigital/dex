@@ -1,7 +1,24 @@
 <div class="usa-grid">
 
-  <h2>{{pageTitle}} <small><span class="usa-label">{{action.action_type}}</span></small></h2>
+  <div class="usa-width-two-thirds">
+    <h2>{{pageTitle}} <small><span class="usa-label">{{action.action_type}}</span></small></h2>
+  </div>
+  <div class="usa-width-one-third" style="margin-top: 1.5em;">
+      <div ng-hide=response>
+        <a class="usa-button" ng-click="onNext(next)" ng-repeat="next in nexts"> 
+          {{next | unsnake | titlecase }}
+        </a>
+      </div>
+      <div ng-show=response> 
+        <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{response==next}}" 
+              ng-repeat="next in nexts"> 
+          {{next | unsnake | titlecase }}
+        </span>
+      </div>
+  </div>
+</div>
 
+<div class="usa-grid">
   <!-- Basic info & ACTIONS -->
   <div class="usa-width-one-half">
 
