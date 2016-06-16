@@ -51,11 +51,26 @@
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
       <td>{{ action.practice_address.state }}</td>  <!-- This is wrong, but the state record is not provided by the endpoint -->
       <td>
-        <div ng-hide=action.response> 
-          <a class="usa-button usa-button-outline" ng-click="markFound(action.id)">Found</a>
-          <a class="usa-button usa-button-outline" ng-click="markNotFound(action.id)">Not Found</a>
+        <div ng-hide=action.response>
+          <a class="usa-button" ng-click="markFound(action.id)"> 
+            <i class="gi gi-check"></i>
+            Found
+          </a>
+          <a class="usa-button" ng-click="markNotFound(action.id)"> 
+            <i class="gi gi-times"></i>
+            Not Found
+          </a>
         </div>
-        <span ng-show=action.response>{{action.response}}</span>
+        <div ng-show=action.response> 
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}" ng-click="markFound(action.id)"> 
+            <i class="gi gi-check"></i>
+            Found
+          </span>
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}" ng-click="markNotFound(action.id)"> 
+            <i class="gi gi-times"></i>
+            Not Found
+          </span>
+        </div>
       </td>
     </tr>
   </tbody>
