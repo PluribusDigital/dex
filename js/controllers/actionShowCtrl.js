@@ -1,8 +1,10 @@
-app.controller("ActionShowController", function ($scope, $routeParams, DataService) {
+app.controller("ActionShowController", function ($scope, $routeParams, DataService, AuthorizationService) {
     $scope.pageTitle = "Action Detail";
     $scope.action = {};
     $scope.inventory = [];
     $scope.totals = {};
+    $scope.nexts = [];
+    $scope.response = '';
 
     // Fetch Handlers
     $scope.onActionLoaded = function (data) {
@@ -40,7 +42,23 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
             'notFound': b.length,
             'notResponded': a.length
         };
+
+        // Disable the buttons if the state has already responded?
+        // ...but they may not even be able to get in here without l33t h4xx on the URL
+        // TODO
     };
+
+    $scope.onNext = function(next) {
+        $scope.response = next;
+    };
+
+    // Setup the role-based buttons
+    if( !AuthorizationService.inRole('state_user') ) {
+        $scope.nexts = ['publish', 'reject'];
+    }
+    else {
+        $scope.nexts = ['found', 'not_found'];
+    }
 
     // Start fetching the data from the REST endpoints
     DataService.getAction($routeParams.id).then($scope.onActionLoaded);
