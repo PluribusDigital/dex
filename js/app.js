@@ -21,7 +21,7 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'ActionsController'
     }).when('/create-action/form', {
         templateUrl: "templates/actions/create-action-form.html",
-        controller: 'ActionsController'
+        controller: 'FormController'
     }).when('/providers/:id', {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'

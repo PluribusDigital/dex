@@ -12,10 +12,10 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     		} else { 
     		// if not found in our system...
     			// Search the CMS API for the number
-          var results;
-          dataService.searchNPI(npi).then(function(data){
-            results = data.npi_api_response.body.results;
-            ResultsService.setResults(results);
+              var results;
+              dataService.searchNPI(npi).then(function(data){
+                results = data.npi_api_response.body.results;
+                ResultsService.setResults(results);
             
             // If didn't find NPI
             if (results === undefined) {
@@ -44,13 +44,9 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
 
     $scope.setProvider = function(provider) {
       // Check if has an ID (is in our system already)
-      if (provider.id){
         $scope.provider = provider;
         ResultsService.setSelected(provider);
         $location.path('/create-action/form');
-      } else { // if not in system, put in there
-        console.log(provider)
-      }
     }
 
     $scope.createAction = function() {
