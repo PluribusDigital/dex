@@ -63,7 +63,6 @@ app.factory('DataService',
             },
 
             postAttachment: function(actionId, userId, attachment) {
-                console.log(attachment)
                 return $http.post(this.baseUrl + "attachments?action_id=" + actionId, attachment, {headers: {
                     'user_id': userId,
                     'Content-Type': undefined
@@ -80,6 +79,14 @@ app.factory('DataService',
 
             getProvider: function (id) {
                 return this._get(this.baseUrl + "providers/" + id, {});
+            },
+
+            postProvider: function(provider, userId, callback){
+                return $http.post(this.baseUrl + "providers", provider, {headers: {
+                    'user_id': userId
+                }}).success(function(res){
+                    callback(res);
+                }).error(function(err){console.log(err)})
             },
 
             getAllStates: function () {
