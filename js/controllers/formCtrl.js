@@ -39,14 +39,6 @@ function ($scope, $location, dataService, ResultsService, SessionService) {
     }
   }
 
-  //Search by name
-  $scope.searchName = function(name) {
-    console.log('searching for ' + name); 
-    dataService.search(name).then(function(res){
-      console.log(res)
-    })
-  };
-
   //prepare data and post action
   function _PostAction(user){
     var postData =  {
@@ -62,7 +54,7 @@ function ($scope, $location, dataService, ResultsService, SessionService) {
       //post action and then attachment
       dataService.createAction(JSON.stringify(postData), user.id, function(res){
         var actionId = res.id;
-        var files = angular.element( document.getElementById( 'attachment' ) )[0].files[0];
+        var files = angular.element(document.getElementById('attachment'))[0].files[0];
         var fd = new FormData();
         fd.append("attachment", files);
         dataService.postAttachment(actionId, user.id, fd)

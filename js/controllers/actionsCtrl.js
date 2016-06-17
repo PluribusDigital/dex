@@ -6,34 +6,27 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     $scope.searchNPI = function(npi) {   
     	dataService.search(npi).then(function(res){
     		$scope.results = res;
-    		// if found in our system
-    		if (res.providers && res.providers.length === 1) {
-    			$scope.provider = res.providers[0];
-    		} else { 
-    		// if not found in our system...
-    			// Search the CMS API for the number
-              var results;
-              dataService.searchNPI(npi).then(function(data){
+    		
+            var results;
+            dataService.searchNPI(npi).then(function(data){
                 results = data.npi_api_response.body.results;
                 ResultsService.setResults(results);
             
-            // If didn't find NPI
-            if (results === undefined) {
-              var notFound = $uibModal.open({
-                templateUrl: 'templates/partials/not-found-modal.html',
-                controller: function($scope, $uibModalInstance) {
-                  $scope.npi = npi;
-                  $scope.ok = function() {
-                    $uibModalInstance.close($scope.selected);
-                  };
+                // If didn't find NPI
+                if (results === undefined) {
+                  var notFound = $uibModal.open({
+                    templateUrl: 'templates/partials/not-found-modal.html',
+                    controller: function($scope, $uibModalInstance) {
+                      $scope.npi = npi;
+                      $scope.ok = function() {
+                        $uibModalInstance.close($scope.selected);
+                      };
+                    }
+                  });
+                } else {
+                  $scope.results.providers = ResultsService.formatResults(results);
                 }
-              });
-            } else {
-              $scope.results.providers = ResultsService.formatResults(results);
-
-            }
-          })    			
-    		}		
+            })	
     	})
     }
 
