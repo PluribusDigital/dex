@@ -9,6 +9,7 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
     // Fetch Handlers
     $scope.onActionLoaded = function (data) {
         $scope.action = data;
+        console.log(data)
     };
 
     $scope.onAcknowledgementsLoaded = function (data) {

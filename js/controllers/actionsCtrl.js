@@ -29,7 +29,9 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
 
   $scope.delete = function(action) {
     var user = SessionService.getUser();
-    dataService.deleteAction(action.id, user.id)
+    dataService.deleteAction(action.id, user.id, function(){
+      $location.path('/actions')
+    })
   }
 
   $scope.setProvider = function(provider) {

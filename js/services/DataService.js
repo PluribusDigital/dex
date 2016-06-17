@@ -38,11 +38,11 @@ app.factory('DataService',
                 }).error(function(err){console.log(err)})
             },
 
-            deleteAction: function(id, user) {
+            deleteAction: function(id, user, callback) {
                 $http.delete(this.baseUrl + "actions/" + id, {headers: {
                     user_id: user
                 }}).success(function(data){
-                    console.log(data);
+                    callback(data);
                 }).error(function(err){console.log(err)})
             },
 

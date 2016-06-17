@@ -3,8 +3,6 @@ function ($scope, $location, $filter, dataService, ResultsService, SessionServic
   $scope.provider = ResultsService.getSelected();
 
   $scope.createAction = function() {
-    var date = new Date();
-    date = date.getDate() + 30;
     // get user info
     var user = SessionService.getUser();
     //get selected provider info
@@ -47,6 +45,8 @@ function ($scope, $location, $filter, dataService, ResultsService, SessionServic
 
   //prepare data and post action
   function _PostAction(user){
+    var dateString = $scope.year + "-" + $scope.month + "-" + $scope.day;
+    var date = new Date(dateString);
     var postData =  {
         status: 'under_review',
         action_type: $scope.action.type,
@@ -56,6 +56,9 @@ function ($scope, $location, $filter, dataService, ResultsService, SessionServic
         comments: $scope.action.comments
         //expiration_timestamp: date,
         //practice_address: $scope.provider.mailing_address
+      }
+      if (dateString.length > 2) {
+        postData.expiration_timestamp = date.toISOString();
       }
       //post action and then attachment
       dataService.createAction(JSON.stringify(postData), user.id, function(res){

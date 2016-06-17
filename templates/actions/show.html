@@ -51,6 +51,7 @@
           <div id="source" class="usa-accordion-content">
             {{action.status | unsnake | titlecase}}<br />
             Last Updated: {{action.lastupdated_timestamp | date : 'MM/dd/yyyy' }}
+            <span ng-if="action.expiration_timestamp"><br />Expires: {{action.expiration_timestamp | date : 'MM/dd/yyyy' }}</span>
           </div>
         </li>
         <li>
