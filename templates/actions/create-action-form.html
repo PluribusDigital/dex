@@ -1,7 +1,7 @@
 <div class="usa-grid">
 	<h1>Create New Action</h1>
-	<div class="dex-provider-info" ng-repeat="provider in results.providers">
-    <h3>{{provider.name}} <small>({{provider.type | titlecase}})</small></h3>
+	<div class="dex-provider-info">
+    <h3>{{provider.name | titlecase}} <small ng-if="provider.type">({{provider.type | titlecase}})</small></h3>
     <div>NPI: {{provider.npi}}</div>
     <address dex-address="provider.mailing_address"></address>
   </div>
@@ -13,12 +13,14 @@
 	    <option value="reinstate">Reinstate</option>
 	  </select>
 	  <label for="reason">Reason</label>
-	  <select multiple name="reason" id="reason" ng-model="action.reason">
+	  <select name="reason" id="reason" ng-model="action.reason">
 	    <option value="fraud">Fraud</option>
 	    <option value="abuse">Abuse</option>
 	  </select>
 	  <label for="attachment">Attachment</label>
 	  <input name="attachment" id="attachment" type="file" ng-model="action.attachment">
+	  <label for="comments">Comments</label>
+	  <textarea name="comments" id="comments" ng-model="action.comments"></textarea>
 	  <button ng-click="createAction()">Create</button>
 	</form>
 </div>
