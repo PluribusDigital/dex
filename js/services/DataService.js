@@ -110,7 +110,7 @@ app.factory('DataService',
             },
 
             searchNPI: function(npi) {
-                return this._get(this.baseUrl + "_npi?number=" + npi, {});
+                return this._get(this.baseUrl + "_npi?q=" + npi, {});
             },
 
             //searchWithText: function (text, page) {

@@ -1,118 +1,81 @@
 app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService',
 function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService) {
 
-    $scope.pageTitle = "Review Feed";
+  $scope.pageTitle = "Review Feed";
 
-    $scope.searchNPI = function(npi) {   
-    	dataService.search(npi).then(function(res){
-    		$scope.results = res;
-    		
-            var results;
-            dataService.searchNPI(npi).then(function(data){
-                results = data.npi_api_response.body.results;
-                ResultsService.setResults(results);
-            
-                // If didn't find NPI
-                if (results === undefined) {
-                  var notFound = $uibModal.open({
-                    templateUrl: 'templates/partials/not-found-modal.html',
-                    controller: function($scope, $uibModalInstance) {
-                      $scope.npi = npi;
-                      $scope.ok = function() {
-                        $uibModalInstance.close($scope.selected);
-                      };
-                    }
-                  });
-                } else {
-                  $scope.results.providers = ResultsService.formatResults(results);
-                }
-            })	
-    	})
-    }
-
-    $scope.delete = function(action) {
-        var user = SessionService.getUser();
-        dataService.deleteAction(action.id, user.id)
-    }
-
-    $scope.setProvider = function(provider) {
-      // Check if has an ID (is in our system already)
-        $scope.provider = provider;
-        ResultsService.setSelected(provider);
-        $location.path('/create-action/form');
-    }
-
-    $scope.createAction = function() {
-      $scope.provider = ResultsService.getSelected();
-      var user = SessionService.getUser();
-      var date = new Date();
-      date = date.getDate() + 30;
-      var postData =  {
-        status: 'under_review',
-        action_type: $scope.action.type,
-        reason: [$scope.action.reason],
-        provider_id: $scope.provider.id,
-        address_id: $scope.provider.mailing_address_id,
-        //expiration_timestamp: date,
-        //practice_address: $scope.provider.mailing_address,
-        //attachments: ['']
+  $scope.searchNPI = function(npi) {   	
+    $scope.results = {};
+    var results;
+    dataService.searchNPI(npi).then(function(data){
+      results = data.npi_api_response;
+      ResultsService.setResults(results);
+    console.log(results)
+      // If didn't find NPI
+      if (results === undefined || results.length === 0) {
+        var notFound = $uibModal.open({
+          templateUrl: 'templates/partials/not-found-modal.html',
+          controller: function($scope, $uibModalInstance) {
+            $scope.npi = npi;
+            $scope.ok = function() {
+              $uibModalInstance.close($scope.selected);
+            };
+          }
+        });
+      } else {
+        $scope.results.providers = ResultsService.formatResults(results);
       }
+    })	  	
+  }
 
-      dataService.createAction(JSON.stringify(postData), user.id, function(res){
-        var actionId = res.id;
-        var files = angular.element( document.getElementById( 'attachment' ) )[0].files[0];
-        var fd = new FormData();
-        fd.append("attachment", files);
-        console.log(fd, files);
-        dataService.postAttachment(actionId, user.id, fd)
-      });
-    }
+  $scope.delete = function(action) {
+    var user = SessionService.getUser();
+    dataService.deleteAction(action.id, user.id)
+  }
 
-    //Search by name
-    $scope.searchName = function(name) {
-    	console.log('searching for ' + name);	
-    	DataService.search(name).then(function(res){
-    		console.log(res)
-    	})
+  $scope.setProvider = function(provider) {
+    // Check if has an ID (is in our system already)
+    $scope.provider = provider;
+    ResultsService.setSelected(provider);
+    $location.path('/create-action/form');
+  }
+
+  $scope._findAction = function(collection, id) {
+    for (var i = 0; i < collection.length; i++) {
+        if(collection[i].id == id)
+            return collection[i];
     };
 
-    $scope._findAction = function(collection, id) {
-        for (var i = 0; i < collection.length; i++) {
-            if(collection[i].id == id)
-                return collection[i];
-        };
+    return null;
+  };
 
-        return null;
-    };
+  $scope.markFound = function (id) {
+      var item = $scope._findAction($scope.stateActions, id);
+      if( item )
+          item.response = 'Found';
+  };
 
-    $scope.markFound = function (id) {
-        var item = $scope._findAction($scope.stateActions, id);
-        if( item )
-            item.response = 'Found';
-    };
+  $scope.markNotFound = function (id) {
+      var item = $scope._findAction($scope.stateActions, id);
+      if( item )
+          item.response = 'Not Found';
+  };
 
-    $scope.markNotFound = function (id) {
-        var item = $scope._findAction($scope.stateActions, id);
-        if( item )
-            item.response = 'Not Found';
-    };
+  // Fetch Handlers
+  $scope.onAdminActionsLoaded = function (data) {
+      $scope.adminActions = data;
+      $scope.pageTitle = "Review Feed - Admin";
+  };
 
-    // Fetch Handlers
-    $scope.onAdminActionsLoaded = function (data) {
-        $scope.adminActions = data;
-        $scope.pageTitle = "Review Feed - Admin";
-    };
+  $scope.onStateActionsLoaded = function (data) {
+      $scope.stateActions = data.acknowledgements.pending;
+      $scope.pageTitle = "Review Feed - " + data.name;
+  };
 
-    $scope.onStateActionsLoaded = function (data) {
-        $scope.stateActions = data.acknowledgements.pending;
-        $scope.pageTitle = "Review Feed - " + data.name;
-    };
-
-    // Start fetching the data from the REST endpoints
-    if( !AuthorizationService.inRole('state_user') )
-        dataService.getAllActions().then($scope.onAdminActionsLoaded);
-    else {
-        var id = SessionService.getUser().state_id;
-        dataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
-    }
+  // Start fetching the data from the REST endpoints
+  if( !AuthorizationService.inRole('state_user') )
+      dataService.getAllActions().then($scope.onAdminActionsLoaded);
+  else {
+      var id = SessionService.getUser().state_id;
+      dataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
+  }
 }]);
