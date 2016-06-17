@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="action in adminActions | filter:'!published'">
+    <tr ng-repeat="action in adminActions | filter:'under_review'">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}

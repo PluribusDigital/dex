@@ -51,7 +51,6 @@ app.controller("LoginController",
         settingsLink.addClass('usa-current');
         break;
       default:
-        console.log(path);
         break;
     }
   });

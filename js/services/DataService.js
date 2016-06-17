@@ -46,6 +46,15 @@ app.factory('DataService',
                 }).error(function(err){console.log(err)})
             },
 
+            updateAction: function(data, actionId, userId, callback) {
+                $http.put(this.baseUrl + "actions/" + actionId, data, {headers: {
+                    user_id: userId
+                }}).success(function(data){
+                    callback();
+                    console.log("success!", data);
+                }).error(function(err){console.log(err)})
+            },
+
             getAllAddresses: function () {
                 return this._get(this.baseUrl + "addresses/", {});
             },

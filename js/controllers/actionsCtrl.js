@@ -9,7 +9,7 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     dataService.searchNPI(npi).then(function(data){
       results = data.npi_api_response;
       ResultsService.setResults(results);
-    console.log(results)
+    
       // If didn't find NPI
       if (results === undefined || results.length === 0) {
         var notFound = $uibModal.open({

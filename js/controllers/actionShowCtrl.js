@@ -1,4 +1,4 @@
-app.controller("ActionShowController", function ($scope, $routeParams, DataService, AuthorizationService) {
+app.controller("ActionShowController", function ($scope, $routeParams, DataService, AuthorizationService, $uibModal, ResultsService, SessionService) {
     $scope.pageTitle = "Action Detail";
     $scope.action = {};
     $scope.inventory = [];
@@ -49,7 +49,67 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
     };
 
     $scope.onNext = function(next) {
-        $scope.response = next;
+        if (next === 'publish') {
+            ResultsService.setSelected($scope.action);
+            var publishModal = $uibModal.open({
+                templateUrl: 'templates/partials/found-modal.html',
+                controller: function($scope, $uibModalInstance, DataService, $location) {
+                    $scope.response = 'publish';
+                    $scope.respond = function() {
+                        var action = ResultsService.getSelected();
+                        var user = SessionService.getUser();
+                        var putData = {
+                          status: "published",
+                          action_type: action.action_type,
+                          reason: action.reason,
+                          provider_id: action.provider_id
+                        }
+                        DataService.updateAction(JSON.stringify(putData), action.id, user.id, function(){
+                            $uibModalInstance.close($scope.selected);
+                            $location.path('/actions')
+                        });
+                    };
+
+                    $scope.cancel = function() {
+                        $uibModalInstance.close($scope.selected);
+                    };
+                }
+            });
+        } else if (next === 'reject') {
+            ResultsService.setSelected($scope.action);
+            var rejectModal = $uibModal.open({
+                templateUrl: 'templates/partials/found-modal.html',
+                controller: function($scope, $uibModalInstance, DataService, $location) {
+                    $scope.response = 'reject';
+                    $scope.respond = function() {
+                        var action = ResultsService.getSelected();
+                        var user = SessionService.getUser();
+                        var putData = {
+                          status: "rejected",
+                          action_type: action.action_type,
+                          reason: action.reason,
+                          provider_id: action.provider_id
+                        }
+                        DataService.updateAction(JSON.stringify(putData), action.id, user.id, function(){
+                            $uibModalInstance.close($scope.selected);
+                            $location.path('/actions')
+                        });
+                    };
+
+                    $scope.cancel = function() {
+                        $uibModalInstance.close($scope.selected);
+                    };
+                }
+            });
+        }
+    };
+
+    $scope.log = function(action){
+        console.log(action)
+    }
+
+    $scope.cancel = function() {
+        $uibModalInstance.close($scope.selected);
     };
 
     // Setup the role-based buttons
