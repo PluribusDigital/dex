@@ -68,6 +68,12 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
 
   $scope.onStateActionsLoaded = function (data) {
       $scope.stateActions = data.acknowledgements.pending;
+      // Add the source into the action object
+      $scope.stateActions.forEach(function(item, index){
+        var createdBy = dataService.getUser(item.creator_id).then(function(res){
+          $scope.stateActions[index].createdBy = res.state.abbreviation;
+        })
+      })
       $scope.pageTitle = "Review Feed - " + data.name;
   };
 

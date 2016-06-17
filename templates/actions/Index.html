@@ -23,7 +23,7 @@
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
-      <td>{{ action.state.name }}</td>
+      <td><span>{{ action.provider.state.name }}</span>
       <td>{{ action.status | unsnake | titlecase }}<span ng-click="delete(action)">x</span></td>
     </tr>
   </tbody>
@@ -49,7 +49,7 @@
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name }}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
-      <td>{{ action.practice_address.state }}</td>  <!-- This is wrong, but the state record is not provided by the endpoint -->
+      <td>{{ action.createdBy }}</td>
       <td>
         <div ng-hide=action.response>
           <a class="usa-button" ng-click="markFound(action.id)"> 

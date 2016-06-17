@@ -75,9 +75,7 @@ app.factory('DataService',
                 return $http.post(this.baseUrl + "attachments?action_id=" + actionId, attachment, {headers: {
                     'user_id': userId,
                     'Content-Type': undefined
-                }}).success(function(res){
-                    console.log('success')
-                }).error(function(err){
+                }}).success(function(){}).error(function(err){
                     console.log(err)
                 });
             },
