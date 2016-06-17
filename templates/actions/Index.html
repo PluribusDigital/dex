@@ -24,7 +24,7 @@
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
       <td><span>{{ action.provider.state.name }}</span>
-      <td>{{ action.status | unsnake | titlecase }}<span ng-click="delete(action)">x</span></td>
+      <td>{{ action.status | unsnake | titlecase }}</td>
     </tr>
   </tbody>
 </table>
