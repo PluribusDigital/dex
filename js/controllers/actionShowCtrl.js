@@ -80,8 +80,16 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
             var rejectModal = $uibModal.open({
                 templateUrl: 'templates/partials/found-modal.html',
                 controller: function($scope, $uibModalInstance, DataService, $location) {
+                    $scope.showChoices = true;
+                    $scope.showCommentsSection = false;
                     $scope.response = 'reject';
+                    
                     $scope.respond = function() {
+                        $scope.showChoices = !$scope.showChoices;
+                        $scope.showCommentsSection = !$scope.showCommentsSection;
+                    };
+
+                    $scope.sendResponse = function() {
                         var action = ResultsService.getSelected();
                         var user = SessionService.getUser();
                         var putData = {
@@ -90,10 +98,13 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                           reason: action.reason,
                           provider_id: action.provider_id
                         }
+                        if ($scope.comments && $scope.comments.length > 0) {
+                            putData.comment = $scope.comments;
+                        }
                         DataService.updateAction(JSON.stringify(putData), action.id, user.id, function(){
                             $uibModalInstance.close($scope.selected);
                             $location.path('/actions')
-                        });
+                        }); 
                     };
 
                     $scope.cancel = function() {

@@ -1,5 +1,12 @@
 <div class="publish-modal my-modals usa-grid">
-	<h2>Are you sure you want to {{response}} this action?</h2>
-	<br/>
-	<button ng-click="respond()">Yes, {{response}}</button><button class="usa-button-secondary" ng-click="cancel()">No, go back</button>
+	<div class="choose-action" ng-if="showChoices">
+		<h2>Are you sure you want to {{response}} this action?</h2>
+		<br/>
+		<button ng-click="respond()">Yes, {{response}}</button><button class="usa-button-secondary" ng-click="cancel()">No, go back</button>
+	</div>
+	<div class="comments" ng-if="showCommentsSection">
+		<label for="comments">Comments (optional)</label>
+		<textarea name="comments" ng-model="$parent.comments"></textarea>
+		<button ng-click="sendResponse()">Send response</button><button class="usa-button-secondary" ng-click="cancel()">No, go back</button>
+	</div>
 </div>
