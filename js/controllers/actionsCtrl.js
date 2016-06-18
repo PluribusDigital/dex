@@ -66,6 +66,11 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
   $scope.onAdminActionsLoaded = function (data) {
       $scope.adminActions = data;
       $scope.pageTitle = "Review Feed - Admin";
+      $scope.adminActions.forEach(function(item, index){
+        var createdBy = dataService.getUser(item.creator_id).then(function(res){
+          $scope.adminActions[index].createdBy = res.state.abbreviation;
+        })
+      })
   };
 
   $scope.onStateActionsLoaded = function (data) {
