@@ -104,12 +104,9 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "states/" + id + "/acknowledgements", {});
             },
 
-            getAllUsers: function () {
-                return this._get(this.baseUrl + "users/", {});
-            },
-
             getUser: function (id) {
-                return this._get(this.baseUrl + "users/" + id, {});
+                console.log('use UserService.get() instead');
+                return null;
             },
 
             search: function (input) {

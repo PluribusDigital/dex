@@ -52,21 +52,21 @@
       <td>{{ action.createdBy }}</td>
       <td>
         <div ng-hide=action.response>
-          <a class="usa-button" ng-click="markFound(action.id)"> 
+          <a class="usa-button" ng-click="markFound(action.id)">
             <i class="gi gi-check"></i>
             Found
           </a>
-          <a class="usa-button" ng-click="markNotFound(action.id)"> 
+          <a class="usa-button" ng-click="markNotFound(action.id)">
             <i class="gi gi-times"></i>
             Not Found
           </a>
         </div>
-        <div ng-show=action.response> 
-          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}"> 
+        <div ng-show=action.response>
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}">
             <i class="gi gi-check"></i>
             Found
           </span>
-          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}"> 
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}">
             <i class="gi gi-times"></i>
             Not Found
           </span>

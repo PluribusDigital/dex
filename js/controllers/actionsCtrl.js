@@ -1,15 +1,15 @@
-app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService',
-function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService) {
+app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService', 'UserService',
+function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
 
   $scope.pageTitle = "Review Feed";
 
-  $scope.searchNPI = function(npi) {   	
+  $scope.searchNPI = function(npi) {
     $scope.results = {};
     var results;
     dataService.searchNPI(npi).then(function(data){
       results = data.npi_api_response;
       ResultsService.setResults(results);
-    
+
       // If didn't find NPI
       if (results === undefined || results.length === 0) {
         var notFound = $uibModal.open({
@@ -24,7 +24,7 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
       } else {
         $scope.results.providers = ResultsService.formatResults(results);
       }
-    })	  	
+    })
   }
 
   $scope.delete = function(action) {
@@ -40,6 +40,9 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     ResultsService.setSelected(provider);
     $location.path('/create-action/form');
   }
+
+  // ---------------------------------------------------------------------------
+  // Action Index handlers
 
   $scope._findAction = function(collection, id) {
     for (var i = 0; i < collection.length; i++) {
@@ -62,26 +65,41 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
           item.response = 'Not Found';
   };
 
+  // ---------------------------------------------------------------------------
   // Fetch Handlers
+
   $scope.onAdminActionsLoaded = function (data) {
       $scope.adminActions = data;
       $scope.pageTitle = "Review Feed - Admin";
-      $scope.adminActions.forEach(function(item, index){
-        var createdBy = dataService.getUser(item.creator_id).then(function(res){
-          $scope.adminActions[index].createdBy = res.state.abbreviation;
-        })
+      $scope.adminActions.forEach(function(item){
+        UserService.get(item.creator_id).then(function(res){
+          item.createdBy = res.state.abbreviation;
+        });
       })
   };
 
   $scope.onStateActionsLoaded = function (data) {
-      $scope.stateActions = data.acknowledgements.pending;
-      // Add the source into the action object
-      $scope.stateActions.forEach(function(item, index){
-        var createdBy = dataService.getUser(item.creator_id).then(function(res){
-          $scope.stateActions[index].createdBy = res.state.abbreviation;
-        })
-      })
+      $scope.stateActions = []
       $scope.pageTitle = "Review Feed - " + data.name;
+
+      // Add the various actions
+      data.acknowledgements.pending.forEach(function(o) {
+          o.response = '';
+          $scope.stateActions.push(o);
+      });
+
+      // TODO: Missing 'Provider' and the ack_type needs to match the case of Found or Not Found
+      // data.acknowledgements.complete.forEach(function(o) {
+      //     o.action.response = o.ack_type;
+      //     $scope.stateActions.push(o.action);
+      // });
+
+      // Add the source into the action object
+      $scope.stateActions.forEach(function(item){
+        UserService.get(item.creator_id).then(function(res){
+          item.createdBy = res.state.abbreviation;
+        });
+      })
   };
 
   // Start fetching the data from the REST endpoints

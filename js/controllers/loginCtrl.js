@@ -1,5 +1,5 @@
 app.controller("LoginController",
-  function ($scope, $location, DataService, $rootScope, SessionService, AuthorizationService) {
+  function ($scope, $location, UserService, $rootScope, SessionService, AuthorizationService) {
   $scope.pageTitle = "Welcome to CMS DEX";
   $scope.showSidebar = $location.path() !== '/';
   $scope.users = [];
@@ -26,7 +26,7 @@ app.controller("LoginController",
     $location.path('/');
   })
 
-  DataService.getAllUsers().then(function(data) {
+  UserService.getAll().then(function(data) {
     $scope.users = data;
   });
 
