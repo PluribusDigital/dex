@@ -27,10 +27,10 @@ app.config(function ($routeProvider, $locationProvider) {
         controller: 'ProviderController'
     }).when('/reports', {
         template: "<h1>Reports</h1>",
-        controller: 'ProviderController'
+        controller: 'NullController'
     }).when('/settings', {
-        template: "<h1>Settings</h1>",
-        controller: 'ProviderController'
+        templateUrl: "templates/partials/settings.html",
+        controller: 'NullController'
     }).otherwise({redirectTo:'/'})
 });
 
@@ -38,7 +38,7 @@ app.config(function ($routeProvider, $locationProvider) {
 app.filter('unsnake',function() {
     return function(input) {
         if (input) {
-            return input.replace('_', ' ');    
+            return input.replace('_', ' ');
         }
     }
 });

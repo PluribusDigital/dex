@@ -5,13 +5,13 @@
     </span>
     <ul class="usa-sidenav-list">
       <li>
-        <a class="actions-link usa-current" href="#/actions">Actions</a>
+        <a ng-class="{'usa-current': currentPath.includes('actions')}" href="#/actions">Actions</a>
       </li>
       <li>
-        <a class="reports-link" href="#/reports">Reports</a>
+        <a ng-class="{'usa-current': currentPath == '/reports'}"  href="#/reports">Reports</a>
       </li>
       <li>
-        <a class="settings-link" href="#/settings">Settings</a>
+        <a ng-class="{'usa-current': currentPath == '/settings'}"  href="#/settings">Settings</a>
       </li>
       <li>
         <a class="logout-link" href="#/" id="log-out-btn">Log Out</a>
