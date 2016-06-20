@@ -26,8 +26,11 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'
     }).when('/reports', {
-        template: "<h1>Reports</h1>",
-        controller: 'ProviderController'
+        templateUrl: "templates/reports/Index.html",
+        controller: 'ReportsController'
+    }).when('/reports/:report', {
+        templateUrl: "templates/reports/detail.html",
+        controller: 'ReportsController'
     }).when('/settings', {
         template: "<h1>Settings</h1>",
         controller: 'ProviderController'
