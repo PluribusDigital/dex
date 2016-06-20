@@ -1,6 +1,7 @@
 var app = angular.module('dex', [
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'chart.js'
 ]);
 // 'templates', 'ngRoute', 'ngResource', 'ngSanitize', 'directives', 'angular-flash.service',
 // 'angular-flash.flash-alert-directive', 'ui.bootstrap'
