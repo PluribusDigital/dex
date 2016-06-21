@@ -41,6 +41,22 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     $location.path('/create-action/form');
   }
 
+  $scope.switchWip = function($event, action) {
+    var user = SessionService.getUser();
+    $scope.wip = !$scope.wip;
+    angular.element(document.querySelectorAll('.active-tab')[1]).removeClass('active-tab');
+    angular.element(document.querySelectorAll('.active-tab')[0]).removeClass('active-tab');
+    angular.element($event.currentTarget).addClass('active-tab');
+
+    action.forEach(function(item){
+      item.filteredActions = [];
+      if (item.creator_id === user.id) {
+        item.filteredActions.push(item);
+        $scope.filteredActions = item.filteredActions;
+      }
+    })
+  }
+
   // ---------------------------------------------------------------------------
   // Action Index handlers
 
@@ -71,17 +87,18 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
   $scope.onAdminActionsLoaded = function (data) {
       $scope.adminActions = data;
       $scope.pageTitle = "Review Feed - Admin";
+      $scope.wip = true;
       $scope.adminActions.forEach(function(item){
         UserService.get(item.creator_id).then(function(res){
           item.createdBy = res.state.abbreviation;
         });
-      })
+      });
   };
 
   $scope.onStateActionsLoaded = function (data) {
-      $scope.stateActions = []
+      $scope.stateActions = [];
       $scope.pageTitle = "Review Feed - " + data.name;
-
+      $scope.wip = true;
       // Add the various actions
       data.acknowledgements.pending.forEach(function(o) {
           o.response = '';

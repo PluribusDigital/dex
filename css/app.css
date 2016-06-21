@@ -100,3 +100,19 @@ table.dex-state-inventory-table td, table.dex-state-inventory-table th {
 .dex-action-button-show-false {
   visibility: hidden;
 }
+
+/* -- Tabs -- */
+.tab {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.active-tab {
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+table caption {
+	text-align: left;
+	cursor: pointer;
+}

@@ -4,7 +4,7 @@
 </div>
 
 <table class="usa-table-borderless" ng-show="adminActions.length > 0">
-  <caption><h4>Work in Progress</h4></caption>
+  <caption><h4 class="tab wip-tab active-tab" ng-click="switchWip($event)">Needs Attention</h4><h4 class="tab recent-tab" ng-click="switchWip($event)">Recent Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
@@ -14,8 +14,21 @@
       <th scope="col">Status</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody ng-if="wip">
     <tr ng-repeat="action in adminActions | filter:'under_review'">
+      <td><a href="#/actions/{{action.id}}">
+        <span class="usa-label">
+          {{action.action_type}}
+        </span></a>
+      </td>
+      <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
+      <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
+      <td><span>{{ action.createdBy }}</span>
+      <td>{{ action.status | unsnake | titlecase }}</td>
+    </tr>
+  </tbody>
+  <tbody ng-if="!wip">
+    <tr ng-repeat="action in adminActions | filter: {createdBy: 'CMS'}">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
@@ -30,7 +43,7 @@
 </table>
 
 <table class="usa-table-borderless" ng-show="stateActions.length > 0">
-  <caption><h4>Need Response</h4></caption>
+  <caption><h4 class="tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
@@ -40,8 +53,42 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody ng-if="wip">
     <tr ng-repeat="action in stateActions">
+      <td><a href="#/actions/{{action.id}}">
+        <span class="usa-label">
+          {{action.action_type}}
+        </span></a>
+      </td>
+      <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase }}</a></td>
+      <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
+      <td>{{ action.createdBy }}</td>
+      <td>
+        <div ng-hide=action.response>
+          <a class="usa-button" ng-click="markFound(action.id)">
+            <i class="gi gi-check"></i>
+            Found
+          </a>
+          <a class="usa-button" ng-click="markNotFound(action.id)">
+            <i class="gi gi-times"></i>
+            Not Found
+          </a>
+        </div>
+        <div ng-show=action.response>
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}">
+            <i class="gi gi-check"></i>
+            Found
+          </span>
+          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}">
+            <i class="gi gi-times"></i>
+            Not Found
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-if="!wip">
+    <tr ng-repeat="action in filteredActions ">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
