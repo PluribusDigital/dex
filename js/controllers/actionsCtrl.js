@@ -86,11 +86,18 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
 
   $scope.onAdminActionsLoaded = function (data) {
       $scope.adminActions = data;
-      $scope.pageTitle = "Review Feed - Admin";
+      $scope.pageTitle = "Inventory Feed - Admin";
       $scope.wip = true;
       $scope.adminActions.forEach(function(item){
         UserService.get(item.creator_id).then(function(res){
           item.createdBy = res.state.abbreviation;
+          var d = new Date();
+          var n = d.toISOString();
+          var filtered = [];
+          if (item.expiration_timestamp && item.expiration_timestamp <= n) {
+            filtered.push(item);
+          }
+          $scope.adminActions = filtered;
         });
       });
   };
