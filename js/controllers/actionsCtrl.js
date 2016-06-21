@@ -1,7 +1,7 @@
-app.controller("ActionsController", ['$scope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService', 'UserService',
-function ($scope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
+app.controller("ActionsController", ['$scope', '$rootScope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService', 'UserService',
+function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
 
-  $scope.pageTitle = "Review Feed";
+  $scope.pageTitle = "Inventory Feed";
 
   $scope.searchNPI = function(npi) {
     $scope.results = {};
@@ -41,14 +41,14 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
     $location.path('/create-action/form');
   }
 
-  $scope.switchWip = function($event, action) {
+  $scope.switchWip = function($event, actions) {
     var user = SessionService.getUser();
     $scope.wip = !$scope.wip;
     angular.element(document.querySelectorAll('.active-tab')[1]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[0]).removeClass('active-tab');
     angular.element($event.currentTarget).addClass('active-tab');
 
-    action.forEach(function(item){
+    actions.forEach(function(item){
       item.filteredActions = [];
       if (item.creator_id === user.id) {
         item.filteredActions.push(item);
@@ -97,7 +97,7 @@ function ($scope, $routeParams, $location, dataService, $uibModal, SessionServic
 
   $scope.onStateActionsLoaded = function (data) {
       $scope.stateActions = [];
-      $scope.pageTitle = "Review Feed - " + data.name;
+      $scope.pageTitle = "Inventory Feed - " + data.name;
       $scope.wip = true;
       // Add the various actions
       data.acknowledgements.pending.forEach(function(o) {

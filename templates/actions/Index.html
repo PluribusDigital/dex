@@ -19,7 +19,6 @@
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
-        </span></a>
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
@@ -43,7 +42,7 @@
 </table>
 
 <table class="usa-table-borderless" ng-show="stateActions.length > 0">
-  <caption><h4 class="tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4></caption>
+  <caption><h4 class="tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
@@ -58,7 +57,7 @@
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
-        </span></a>
+        </span></a></span></a><span ng-click="delete(action)">x</span>
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase }}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>

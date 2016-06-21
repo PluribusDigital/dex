@@ -1,5 +1,5 @@
-app.controller("FormController", ['$scope', '$location', '$filter', 'DataService', 'ResultsService', 'SessionService',
-function ($scope, $location, $filter, dataService, ResultsService, SessionService) {
+app.controller("FormController", ['$scope', '$rootScope', '$location', '$filter', 'DataService', 'ResultsService', 'SessionService',
+function ($scope, $rootScope, $location, $filter, dataService, ResultsService, SessionService) {
   $scope.provider = ResultsService.getSelected();
 
   $scope.createAction = function() {
@@ -54,10 +54,9 @@ function ($scope, $location, $filter, dataService, ResultsService, SessionServic
         provider_id: $scope.provider.id,
         address_id: $scope.provider.mailing_address_id,
         comments: $scope.action.comments
-        //expiration_timestamp: date,
         //practice_address: $scope.provider.mailing_address
       }
-      if (dateString.length > 2) {
+      if ($scope.year !== undefined && $scope.month !== undefined && $scope.day !== undefined) {
         postData.expiration_timestamp = date.toISOString();
       }
       //post action and then attachment
@@ -66,9 +65,9 @@ function ($scope, $location, $filter, dataService, ResultsService, SessionServic
         var files = angular.element(document.getElementById('attachment'))[0].files[0];
         var fd = new FormData();
         fd.append("attachment", files);
-        dataService.postAttachment(actionId, user.id, fd).then(
-            $location.path('/actions')
-          );
+        dataService.postAttachment(actionId, user.id, fd).then(function(){
+          $location.path('/actions');
+        });
       });
   }
 
