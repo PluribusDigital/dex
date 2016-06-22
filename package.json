@@ -12,7 +12,8 @@
     "elasticsearch": "latest",
     "govicons": "latest",
     "phantomjs": "^1.9.18",
-    "uswds": "latest"
+    "uswds": "latest",
+    "angular-chart.js": "latest"
   },
   "devDependencies": {
     "gulp": "latest",

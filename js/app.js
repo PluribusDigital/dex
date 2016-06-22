@@ -1,6 +1,7 @@
 var app = angular.module('dex', [
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'chart.js'
 ]);
 // 'templates', 'ngRoute', 'ngResource', 'ngSanitize', 'directives', 'angular-flash.service',
 // 'angular-flash.flash-alert-directive', 'ui.bootstrap'
@@ -26,8 +27,11 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: "templates/providers/Show.html",
         controller: 'ProviderController'
     }).when('/reports', {
-        template: "<h1>Reports</h1>",
-        controller: 'NullController'
+        templateUrl: "templates/reports/Index.html",
+        controller: 'ReportsController'
+    }).when('/reports/:report', {
+        templateUrl: "templates/reports/detail.html",
+        controller: 'ReportsController'
     }).when('/settings', {
         templateUrl: "templates/partials/settings.html",
         controller: 'NullController'

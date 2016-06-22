@@ -1,0 +1,15 @@
+<div class="usa-grid">
+	<h2>Send Email to State Users</h2> 
+
+	<form>
+		<label for="from">From</label>
+	  <input name="from" id="from" type="text" value="{{user.fullname}}" disabled>
+	  <label for="subject">Subject</label>
+	  <input name="subject" id="subject" type="text">
+	  <label for="message">Message</label>
+	  <textarea name="message" id="message"></textarea>
+	  <button ng-click="send()">Send</button>
+	  <button ng-click="cancel()" class="usa-button-secondary">Cancel</button>
+	</form>
+	
+</div>

@@ -1,0 +1,38 @@
+<div class="my-modals usa-grid">
+	<h2>Recent Activity for {{stateAbbr}}</h2> 
+	
+	<table class="usa-table-borderless">
+	  <caption><h4>State Activity</h4></caption>
+	  <thead>
+	    <tr>
+	      <th scope="col">User</th>
+	      <th scope="col">Action</th>
+	      <th scope="col">Date</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td>jsmith@state.gov</td>
+	      <td>Inventory: <a href="#/actions/19" ng-click="ok()">Mark #19 'Not Found'</a></td>
+	      <td>6/1/2016</td>
+	    </tr>
+	    <tr>
+	      <td>jsmith@state.gov</td>
+	      <td>Inventory: <a href="#/actions/18" ng-click="ok()">Mark #18 'Not Found'</a></td>
+	      <td>6/1/2016</td>
+	    </tr>
+	    <tr>
+	      <td>jsmith@state.gov</td>
+	      <td>Login</td>
+	      <td>6/1/2016</td>
+	    </tr>
+	    <tr>
+	      <td>jdoe@state.gov</td>
+	      <td>Login</td>
+	      <td>5/15/2016</td>
+	    </tr>
+	  </tbody>
+	</table>
+
+	<button ng-click="ok()">Ok</button>
+</div>

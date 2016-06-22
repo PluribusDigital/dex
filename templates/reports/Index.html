@@ -1,0 +1,38 @@
+<h1>Reports Dashboard</h1>
+
+<div class="usa-grid">
+  <div class="usa-width-one-half">
+    <h2><a href="#/reports/activity">Inactive States</a></h2>
+    <div><span class="usa-label-big">14</span> have no activity in the last 10 days.</div>
+    <div><span class="usa-label-big">20</span> are out of date on inventories.</div>
+    <div><span class="usa-label-big">42</span> users have not logged in for 60+ days.</div>
+  </div>
+  <div class="usa-width-one-half">
+    <h2><a href="#/reports/activity">Active States</a></h2>
+    <canvas id="active" class="chart chart-bar"
+      chart-data="activeStatesChart.data" 
+      chart-labels="activeStatesChart.labels" 
+      chart-series="activeStatesChart.series">
+    </canvas>
+  </div>
+</div>
+<div class="usa-grid">
+  <div class="usa-width-one-half">
+    <h2><a href="#/reports/reviews">Review Turnaround</a></h2>
+    <div><small><em>Measured in business days.</em></small></div>
+    <canvas id="review" class="chart chart-line"
+      chart-data="reviewChart.data" 
+      chart-labels="reviewChart.labels">
+    </canvas>
+  </div>
+  <div class="usa-width-one-half">
+    <h2><a href="#/reports/inventory">Inventory Turnaround</a></h2>
+    <div><small><em>Measured in business days.</em></small></div>
+    <canvas id="inventory" class="chart chart-line"
+      chart-data="inventoryChart.data" 
+      chart-labels="inventoryChart.labels">
+    </canvas>
+  </div>
+</div>
+
+
