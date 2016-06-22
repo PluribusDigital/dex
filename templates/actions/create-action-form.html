@@ -7,7 +7,7 @@
   </div>
   <hr>
   <form>
-	  <label for="action-type">Action Type</label>
+	  <label for="action-type">Action Type <span uib-tooltip="Choose the reason to initiate this action for this provider" type="button" class="tooltip-icon">i</span></label>
 	  <select name="action-type" id="action-type" ng-model="action.type">
 	    <option value="terminate">Termination/Revocation</option>
 	    <option value="reinstate">Reinstatement</option>
@@ -15,13 +15,13 @@
 	    <option>Investigative Fingerprinting</option>
 	    <option>Other</option>
 	  </select>
-	  <label for="reason">Reason</label>
+	  <label for="reason">Reason <span uib-tooltip="Choose the reason to initiate this action for this provider" type="button" class="tooltip-icon">i</span></label>
 	  <select name="reason" id="reason" ng-model="action.reason">
 	    <option value="fraud">Termination</option>
 	    <option value="abuse">Mutual Action</option>
 	  </select>
 	  <fieldset>
-	    <label>Action Expiration Date (optional)</label>
+	    <label>Action Expiration Date (optional) <span uib-tooltip="When does this action expire (if ever)?" type="button" class="tooltip-icon">i</span></label>
 	    <span class="usa-form-hint usa-datefield-hint" id="dobHint">Format: MM DD YYYY</span>
 	    <div class="usa-date-of-birth">
 	      <div class="usa-datefield usa-form-group usa-form-group-month">
@@ -35,7 +35,7 @@
 	      </div>
 	    </div>
 	  </fieldset>
-	  <label for="attachment">Attachment</label>
+	  <label for="attachment">Attachment <span uib-tooltip="Pick the PDF file from your computer to attatch to this action" type="button" class="tooltip-icon">i</span></label>
 	  <input name="attachment" id="attachment" type="file" ng-model="action.attachment">
 	  <label for="comments">Comments</label>
 	  <textarea name="comments" id="comments" ng-model="action.comments"></textarea>

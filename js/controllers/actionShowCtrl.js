@@ -120,10 +120,6 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
         console.log(action)
     }
 
-    $scope.cancel = function() {
-        $uibModalInstance.close($scope.selected);
-    };
-
     // Setup the role-based buttons
     if( !AuthorizationService.inRole('state_user') ) {
         $scope.nexts = ['publish', 'reject'];
