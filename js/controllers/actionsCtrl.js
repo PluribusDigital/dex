@@ -10,7 +10,7 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
       results = data.npi_api_response;
       ResultsService.setResults(results);
 
-      // If didn't find NPI
+      // If didn't find Provider
       if (results === undefined || results.length === 0) {
         var notFound = $uibModal.open({
           templateUrl: 'templates/partials/not-found-modal.html',
@@ -35,10 +35,20 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   }
 
   $scope.setProvider = function(provider) {
-    // Check if has an ID (is in our system already)
-    $scope.provider = provider;
-    ResultsService.setSelected(provider);
-    $location.path('/create-action/form');
+    // Check if has a mailing address
+    if (!provider.mailing_address) {
+      provider.mailing_address = dataService.getAddress(provider.mailing_address_id).then(function(res){
+        provider.mailing_address = res;
+        $scope.provider = provider;
+        ResultsService.setSelected(provider);
+        $location.path('/create-action/form');
+      })
+    } else {
+      $scope.provider = provider;
+      ResultsService.setSelected(provider);
+      $location.path('/create-action/form');
+    }
+    
   }
 
   $scope.switchWip = function($event, actions) {
@@ -106,11 +116,11 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
               reason: ['expired'],
               provider_id: item.provider_id
             };
-            console.log('expired', item)
+            var index = $scope.adminActions.indexOf(item);
+            var urgentIcon = angular.element(document.querySelectorAll('.urgent-icon')[index]);
+            angular.element(urgentIcon[0]).removeClass('hidden');
             /* TODO: figure out how to best handle this (maybe send to the action form?)
-            dataService.updateAction(putData, item.id, user.id, function(res){
-              console.log('success')
-            }); */
+            Currently it takes user to the create form */
           };
         };      
       });

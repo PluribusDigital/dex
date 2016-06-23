@@ -125,3 +125,10 @@ table caption {
 	padding: 3px 8px;
 	border-radius: 50%;
 }
+
+.urgent-icon {
+	background-color: red;
+	color: #efefef;
+	padding: 3px 8px;
+	border-radius: 50%;
+}

@@ -16,9 +16,9 @@
   </thead>
   <tbody ng-if="wip">
     <tr ng-repeat="action in adminActions | filter:'under_review'">
-      <td><a href="#/actions/{{action.id}}">
-        <span class="usa-label">
-          {{action.action_type}}
+      <td><span  uib-tooltip="This item is expired. Please reinstate. Click on ths icon to start the process" type="button" class="urgent-icon  hidden" ng-click="setProvider(action.provider)">!</span>
+        <a href="#/actions/{{action.id}}">
+        <span class="usa-label"> {{action.action_type}}</span></a> 
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
@@ -57,7 +57,7 @@
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
-        </span></a></span></a><span ng-click="delete(action)">x</span>
+        </span></a><!--<span ng-click="delete(action)">x</span>-->
       </td>
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase }}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
