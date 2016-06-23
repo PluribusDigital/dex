@@ -1,0 +1,54 @@
+<div class="usa-banner-content" id="main-content">
+
+  <div class="usa-grid">
+    <div class="usa-width-one-half">
+      <h1>{{ pageTitle }}</h1>
+    </div>
+    <div class="usa-width-one-half">
+      <form class="usa-search usa-search-small create-btn" ng-submit="search()">
+        <div role="search">
+          <label class="usa-sr-only" for="search-field-small">Search small</label>
+          <input id="search-field-small" type="search" name="search" 
+                 placeholder="Enter name or NPI" ng-model="searchText">
+          <button type="submit" ng-disabled="!searchText">
+            <span class="usa-sr-only">Search</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<table class="usa-table-borderless" ng-show="providers.length > 0">
+  <thead>
+    <tr>
+      <th scope="col">Provider</th>
+      <th scope="col">Services</th>
+      <th scope="col">NPI</th>
+      <th scope="col">Mailing Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="provider in providers">
+      <td scope="row">
+          <a href="#/providers/{{provider.id}}">{{ provider.name | titlecase}}</a>
+          <br /><small ng-if="provider.type">({{provider.type | titlecase}})</small>
+      </td>
+      <td>
+        <div ng-repeat="service in provider.services">
+          {{service}}
+        </div> 
+      </td>
+      <td>{{provider.npi}}</td>
+      <td><address dex-address="provider.mailing_address"></address></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="usa-alert usa-alert-info" ng-hide="providers.length > 0">
+    <div class="usa-alert-body">
+      <h3 class="usa-alert-heading">No Results</h3>
+      <p class="usa-alert-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+    </div>
+</div>
+

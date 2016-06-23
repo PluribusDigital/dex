@@ -117,30 +117,9 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "_npi?q=" + npi, {});
             },
 
-            //searchWithText: function (text, page) {
-            //    var params = {
-            //        "page": (page || 1),
-            //        "per_page": 20
-            //    };
-            //    if (text) {
-            //        params.search_fields = "cac,title,office,division,branch,pacode,docketcode";
-            //        params.search = text;
-            //    }
-
-            //    var deferred = $q.defer();
-
-            //    $http.get("http://fathomless-fjord-7794.herokuapp.com/api/cacs", { "params": params }).then(function (response) {
-            //        var mapped = response.data.data.map(fjordMap);
-            //        deferred.resolve(mapped);
-            //    }, function (response) {
-            //        console.log('error when calling cacs endpoint');
-            //        console.log(response);
-            //        deferred.reject();
-            //    })
-
-            //    return deferred.promise;
-            //}
-
+            searchProviders: function (input) {
+                return this._get(this.baseUrl + "_search/providers?q=" + input, {});
+            }
         };
 
         return service;
