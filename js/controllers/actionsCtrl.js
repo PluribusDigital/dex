@@ -47,14 +47,15 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
     angular.element(document.querySelectorAll('.active-tab')[1]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[0]).removeClass('active-tab');
     angular.element($event.currentTarget).addClass('active-tab');
-
-    actions.forEach(function(item){
-      item.filteredActions = [];
-      if (item.creator_id === user.id) {
-        item.filteredActions.push(item);
-        $scope.filteredActions = item.filteredActions;
-      }
-    })
+    if (actions) {
+      actions.forEach(function(item){
+        item.filteredActions = [];
+        if (item.creator_id === user.id) {
+          item.filteredActions.push(item);
+          $scope.filteredActions = item.filteredActions;
+        }
+      })
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -85,21 +86,35 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   // Fetch Handlers
 
   $scope.onAdminActionsLoaded = function (data) {
-      $scope.adminActions = data;
-      $scope.pageTitle = "Inventory Feed - Admin";
-      $scope.wip = true;
-      $scope.adminActions.forEach(function(item){
-        UserService.get(item.creator_id).then(function(res){
-          item.createdBy = res.state.abbreviation;
-          var d = new Date();
-          var n = d.toISOString();
-          var filtered = [];
-          if (item.expiration_timestamp && item.expiration_timestamp <= n) {
-            filtered.push(item);
-          }
-          $scope.adminActions = filtered;
-        });
+    $scope.adminActions = data;
+    $scope.pageTitle = "Inventory Feed - Admin";
+    $scope.wip = true;
+    $scope.adminActions.forEach(function(item){
+      UserService.get(item.creator_id).then(function(res){
+        item.createdBy = res.state.abbreviation;
+        var d = new Date();
+        var n = d.toISOString();
+        var filtered = [];
+        var user = res;
+        // if item has an expiration date and it's before than today's date, (already expired)
+        // check if reinstated and if not, auto-reinstate
+        if (item.expiration_timestamp && item.expiration_timestamp <= n) {
+          if (item.action_type === 'terminate') {
+            var putData = {
+              status: 'under_review',
+              action_type: 'reinstatement',
+              reason: ['expired'],
+              provider_id: item.provider_id
+            };
+            console.log('expired', item)
+            /* TODO: figure out how to best handle this (maybe send to the action form?)
+            dataService.updateAction(putData, item.id, user.id, function(res){
+              console.log('success')
+            }); */
+          };
+        };      
       });
+    });
   };
 
   $scope.onStateActionsLoaded = function (data) {
