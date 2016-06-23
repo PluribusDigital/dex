@@ -1,4 +1,4 @@
-app.controller("ActionShowController", function ($scope, $routeParams, DataService, AuthorizationService, $uibModal, ResultsService, SessionService) {
+app.controller("ActionShowController", function ($scope, $routeParams, DataService, AuthorizationService, $uibModal, ResultsService, SessionService, $location) {
     $scope.pageTitle = "Action Detail";
     $scope.action = {};
     $scope.inventory = [];
@@ -9,7 +9,6 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
     // Fetch Handlers
     $scope.onActionLoaded = function (data) {
         $scope.action = data;
-        console.log(data)
     };
 
     $scope.onAcknowledgementsLoaded = function (data) {
@@ -113,6 +112,34 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                     };
                 }
             });
+        } else if (next === 'found') {
+            var result = ResultsService.setSelected($scope.action);
+            var mutualAction = $uibModal.open({
+                templateUrl: 'templates/partials/mutual-action-modal.html',
+                controller: function($scope, $uibModalInstance) {
+                
+                $scope.mutualAction = function() {
+                    var item = ResultsService.getSelected();
+                    if (!item.provider.mailing_address) {
+                        item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
+                            item.provider.mailing_address = res;
+                            $scope.provider = item.provider;
+                            ResultsService.setSelected(item.provider);
+                            $location.path('/create-action/form');
+                        })
+                    } else {
+                        $scope.provider = item.provider;
+                        ResultsService.setSelected(item.provider);
+                        $location.path('/create-action/form');
+                    }
+                    $scope.close();
+                };
+                
+                $scope.close = function() {
+                  $uibModalInstance.close($scope.selected);
+                };
+            }
+        });
         }
     };
 
