@@ -83,12 +83,13 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
       var item = $scope._findAction($scope.stateActions, id);
       if( item ){
         item.response = 'Found';
-        
+
         var mutualAction = $uibModal.open({
           templateUrl: 'templates/partials/mutual-action-modal.html',
           controller: function($scope, $uibModalInstance) {
             
             $scope.mutualAction = function() {
+              item.provider.isMutual = true;
               if (!item.provider.mailing_address) {
                 item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
                   item.provider.mailing_address = res;

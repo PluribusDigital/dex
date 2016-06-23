@@ -120,6 +120,7 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                 
                 $scope.mutualAction = function() {
                     var item = ResultsService.getSelected();
+                    item.provider.isMutual = true;
                     if (!item.provider.mailing_address) {
                         item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
                             item.provider.mailing_address = res;
@@ -134,7 +135,7 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                     }
                     $scope.close();
                 };
-                
+
                 $scope.close = function() {
                   $uibModalInstance.close($scope.selected);
                 };
