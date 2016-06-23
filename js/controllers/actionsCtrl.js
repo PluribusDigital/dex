@@ -47,8 +47,7 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
       $scope.provider = provider;
       ResultsService.setSelected(provider);
       $location.path('/create-action/form');
-    }
-    
+    }   
   }
 
   $scope.switchWip = function($event, actions) {
@@ -82,8 +81,33 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
 
   $scope.markFound = function (id) {
       var item = $scope._findAction($scope.stateActions, id);
-      if( item )
-          item.response = 'Found';
+      if( item ){
+        item.response = 'Found';
+        var mutualAction = $uibModal.open({
+          templateUrl: 'templates/partials/mutual-action-modal.html',
+          controller: function($scope, $uibModalInstance) {
+            
+            $scope.mutualAction = function() {
+              if (!item.provider.mailing_address) {
+                item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
+                  item.provider.mailing_address = res;
+                  $scope.provider = item.provider;
+                  ResultsService.setSelected(item.provider);
+                  $location.path('/create-action/form');
+                })
+              } else {
+                $scope.provider = item.provider;
+                ResultsService.setSelected(item.provider);
+                $location.path('/create-action/form');
+              }
+              $scope.close();
+            };
+            $scope.close = function() {
+              $uibModalInstance.close($scope.selected);
+            };
+          }
+        });
+      }
   };
 
   $scope.markNotFound = function (id) {
