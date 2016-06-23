@@ -121,6 +121,7 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                 $scope.mutualAction = function() {
                     var item = ResultsService.getSelected();
                     item.provider.isMutual = true;
+                    item.provider.action_type = item.action_type;
                     if (!item.provider.mailing_address) {
                         item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
                             item.provider.mailing_address = res;

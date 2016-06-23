@@ -74,10 +74,9 @@ function ($scope, $rootScope, $location, $filter, dataService, ResultsService, S
   // Check if mutual action
   $scope.$watch('provider', function() {
     if ($scope.provider.isMutual) {
-      var reasonInput = angular.element(document.querySelectorAll('#reason')[0]);
-      reasonInput = angular.element(reasonInput[0]);
       $scope.action = {
-        reason: 'mutual'
+        reason: 'mutual',
+        type: $scope.provider.action_type
       }
     }
   });

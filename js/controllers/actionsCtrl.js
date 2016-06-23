@@ -90,6 +90,7 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
             
             $scope.mutualAction = function() {
               item.provider.isMutual = true;
+              item.provider.action_type = item.action_type;
               if (!item.provider.mailing_address) {
                 item.provider.mailing_address = dataService.getAddress(item.provider.mailing_address_id).then(function(res){
                   item.provider.mailing_address = res;
