@@ -50,20 +50,45 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
     }   
   }
 
-  $scope.switchWip = function($event, actions) {
+  // Sets active tab to needs attention
+  $scope.switchWip = function($event, actions, responded) {
     var user = SessionService.getUser();
-    $scope.wip = !$scope.wip;
+    if ($event.target.firstChild.data === 'Recent Actions') {
+      $scope.recentActions = true;
+      $scope.needsAttn = false;
+      $scope.acknowledgedActions = false;
+    } else if ($event.target.firstChild.data === 'Needs Response' || $event.target.firstChild.data === 'Needs Attention') {
+      $scope.needsAttn = true;
+      $scope.recentActions = false;
+      $scope.acknowledgedActions = false;
+    } else if ($event.target.firstChild.data === 'Acknowledged Actions') {
+      $scope.needsAttn = false;
+      $scope.recentActions = false;
+      $scope.acknowledgedActions = true;
+    }
+    angular.element(document.querySelectorAll('.active-tab')[2]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[1]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[0]).removeClass('active-tab');
     angular.element($event.currentTarget).addClass('active-tab');
-    if (actions) {
+    if (actions && !$scope.myActions) {
+
+      var filteredActions = [];
       actions.forEach(function(item){
-        item.filteredActions = [];
-        if (item.creator_id === user.id) {
-          item.filteredActions.push(item);
-          $scope.filteredActions = item.filteredActions;
+        if (item.createdBy === user.state.abbreviation || user.type === 'cms_user' && item.status !== 'under_review') {
+          filteredActions.push(item);
         }
-      })
+      });
+      filteredActions.sort(function (a, b) {
+        if (a.created_timestamp < b.created_timestamp) {
+          return 1;
+        }
+      });
+      if($scope.stateActionsResponded){
+        $scope.stateActionsResponded.forEach(function(item){
+          console.log(item)
+        })
+      }
+      $scope.filteredActions = filteredActions;
     }
   }
 
@@ -114,9 +139,20 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   };
 
   $scope.markNotFound = function (id) {
+      var user = SessionService.getUser();
       var item = $scope._findAction($scope.stateActions, id);
-      if( item )
-          item.response = 'Not Found';
+      if( item ) {
+        var actionId = item.id;
+        item.response = 'Not Found';
+        var postData = {
+          state_id: item.state_id, 
+          ack_type: "not_found"
+        }
+        dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
+
+        })
+
+      }
   };
 
   // ---------------------------------------------------------------------------
@@ -124,9 +160,12 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
 
   $scope.onAdminActionsLoaded = function (data) {
     $scope.adminActions = data;
+    $scope.filteredActions =[];
     $scope.pageTitle = "Inventory Feed - Admin";
-    $scope.wip = true;
+    $scope.needsAttn = true;
+    $scope.recentActions = false;
     $scope.adminActions.forEach(function(item){
+
       UserService.get(item.creator_id).then(function(res){
         item.createdBy = res.state.abbreviation;
         var d = new Date();
@@ -147,7 +186,7 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
             var urgentIcon = angular.element(document.querySelectorAll('.urgent-icon')[index]);
             angular.element(urgentIcon[0]).removeClass('hidden');
             /* TODO: figure out how to best handle this (maybe send to the action form?)
-            Currently it takes user to the create form */
+            Currently it takes user to the create action form */
           };
         };      
       });
@@ -155,34 +194,78 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   };
 
   $scope.onStateActionsLoaded = function (data) {
-      $scope.stateActions = [];
-      $scope.pageTitle = "Inventory Feed - " + data.name;
-      $scope.wip = true;
-      // Add the various actions
-      data.acknowledgements.pending.forEach(function(o) {
-          o.response = '';
-          $scope.stateActions.push(o);
-      });
+    $scope.stateActions = [];
+    $scope.stateActionsResponded = [];
+    $scope.myActions = [];
+    $scope.pageTitle = "Inventory Feed - " + data.name;
+    $scope.needsAttn = true;
+    $scope.recentActions = false;
+    user = SessionService.getUser();
+    $scope.filteredActions = [];
+    
+    // Add the various actions (not acknowledged)
+    data.acknowledgements.pending.forEach(function(o) {
+      var myActions = [];
+      o.response = '';
+      if (o.creator.state_id !== user.state_id){
+        $scope.stateActions.push(o);
+      } else if (o.creator.state_id == user.state_id) {
+        $scope.myActions.push(o)
+      } else {
+        console.log('not pushed', o)
+      }
+    });
 
-      // TODO: Missing 'Provider' and the ack_type needs to match the case of Found or Not Found
-      // data.acknowledgements.complete.forEach(function(o) {
-      //     o.action.response = o.ack_type;
-      //     $scope.stateActions.push(o.action);
-      // });
+    data.acknowledgements.complete.forEach(function(o){
+      o.action.response = o.ack_type;
+      if (!o.action.provider) {
+        dataService.getProvider(o.action.provider_id).then(function(res){
+          o.action.provider = {
+            name: res.name
+          }
+        });
+        $scope.stateActionsResponded.push(o);
+      }
+    })
+    console.log('sar',$scope.stateActionsResponded);
+    console.log('ma', $scope.myActions)
+    // TODO: Missing 'Provider' and the ack_type needs to match the case of Found or Not Found
+    // data.acknowledgements.complete.forEach(function(o) {
+    //     o.action.response = o.ack_type;
+    //     $scope.stateActions.push(o.action);
+    // });
 
-      // Add the source into the action object
-      $scope.stateActions.forEach(function(item){
+    // Add the source into the action object
+    $scope.stateActions.forEach(function(item, index){
+      if (item.creator_id) {
         UserService.get(item.creator_id).then(function(res){
           item.createdBy = res.state.abbreviation;
         });
-      })
+      } 
+    });
+
+    $scope.myActions.forEach(function(item,index){
+      UserService.get(item.creator_id).then(function(res){
+        $scope.myActions[index].createdBy = res.state.abbreviation;
+      });
+    });
+    
+    $scope.stateActionsResponded.forEach(function(item,index){
+      UserService.get(item.action.creator_id).then(function(res){
+        $scope.stateActionsResponded[index].createdBy = res.state.abbreviation;
+      });
+    });
   };
 
   // Start fetching the data from the REST endpoints
-  if( !AuthorizationService.inRole('state_user') )
-      dataService.getAllActions().then($scope.onAdminActionsLoaded);
-  else {
-      var id = SessionService.getUser().state_id;
-      dataService.getStateAcknowledgements(id).then($scope.onStateActionsLoaded);
+  if( !AuthorizationService.inRole('state_user') ) {
+    dataService.getAllActions().then(function(res){
+      $scope.onAdminActionsLoaded(res);
+    });
+  } else {
+    var id = SessionService.getUser().state_id;
+    dataService.getStateAcknowledgements(id).then(function(res){
+      $scope.onStateActionsLoaded(res);
+    });
   }
 }]);

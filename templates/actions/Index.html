@@ -2,20 +2,20 @@
   <h1>{{ pageTitle }}</h1>
     <a class="usa-button usa-button-primary create-btn" href="#/create-action">Create new action</a>
 </div>
-
+<!-- Admin Actions -->
 <table class="usa-table-borderless" ng-show="adminActions.length > 0">
-  <caption><h4 class="tab wip-tab active-tab" ng-click="switchWip($event)">Needs Attention</h4><h4 class="tab recent-tab" ng-click="switchWip($event)">Recent Actions</h4></caption>
+  <caption><h4 class="tab wip-tab active-tab" ng-click="switchWip($event, adminActions)">Needs Attention</h4><h4 class="tab recent-tab" ng-click="switchWip($event, adminActions)">Recent Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
       <th scope="col">Provider</th>
       <th scope="col">Date</th>
       <th scope="col">Source</th>
-      <th scope="col">Status</th>
+      <th scope="col"><span ng-show="recentActions">Status</span></th>
     </tr>
   </thead>
-  <tbody ng-if="wip">
-    <tr ng-repeat="action in adminActions | filter:'under_review'">
+  <tbody ng-if="needsAttn">
+    <tr ng-repeat="action in adminActions | filter: 'under_review'">
       <td><span  uib-tooltip="This item is expired. Please reinstate. Click on ths icon to start the process" type="button" class="urgent-icon  hidden" ng-click="setProvider(action.provider)">!</span>
         <a href="#/actions/{{action.id}}">
         <span class="usa-label"> {{action.action_type}}</span></a> 
@@ -23,11 +23,11 @@
       <td><a href="#/providers/{{action.provider.id}}">{{ action.provider.name | titlecase}}</a></td>
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
       <td><span>{{ action.createdBy }}</span>
-      <td>{{ action.status | unsnake | titlecase }}</td>
+      <td><a href="#/actions/{{action.id}}"><button>Review Action</button></a></td>
     </tr>
   </tbody>
-  <tbody ng-if="!wip">
-    <tr ng-repeat="action in adminActions | filter: {createdBy: 'CMS'}">
+  <tbody ng-if="recentActions">
+    <tr ng-repeat="action in filteredActions">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
@@ -42,17 +42,18 @@
 </table>
 
 <table class="usa-table-borderless" ng-show="stateActions.length > 0">
-  <caption><h4 class="tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4></caption>
+  <caption><h4 class="tab needs-response-tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Acknowledged Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
       <th scope="col">Provider</th>
       <th scope="col">Date</th>
       <th scope="col">Source</th>
-      <th scope="col"></th>
+      <th scope="col" ><span ng-show="recentActions">Status</span><span ng-show="acknowledgedActions">Response</span></th>
     </tr>
   </thead>
-  <tbody ng-if="wip">
+  <!-- State Actions -->
+  <tbody ng-if="needsAttn">
     <tr ng-repeat="action in stateActions">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
@@ -86,8 +87,8 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-if="!wip">
-    <tr ng-repeat="action in filteredActions ">
+  <tbody ng-if="recentActions">
+    <tr ng-repeat="action in myActions ">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
           {{action.action_type}}
@@ -97,26 +98,22 @@
       <td>{{ action.created_timestamp | date:'MM/dd/yyyy' }}</td>
       <td>{{ action.createdBy }}</td>
       <td>
-        <div ng-hide=action.response>
-          <a class="usa-button" ng-click="markFound(action.id)">
-            <i class="gi gi-check"></i>
-            Found
-          </a>
-          <a class="usa-button" ng-click="markNotFound(action.id)">
-            <i class="gi gi-times"></i>
-            Not Found
-          </a>
-        </div>
-        <div ng-show=action.response>
-          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Found'}}">
-            <i class="gi gi-check"></i>
-            Found
-          </span>
-          <span disabled class="usa-button usa-button-gray usa-button-disabled dex-action-button-show-{{action.response=='Not Found'}}">
-            <i class="gi gi-times"></i>
-            Not Found
-          </span>
-        </div>
+        <div>{{ action.status | unsnake | titlecase }}</div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-if="acknowledgedActions">
+    <tr ng-repeat="action in stateActionsResponded">
+      <td><a href="#/actions/{{action.action_id}}">
+        <span class="usa-label">
+          {{action.action.action_type}}
+        </span></a>
+      </td>
+      <td><a href="#/providers/{{action.action.provider_id}}">{{ action.action.provider.name | titlecase }}</a></td>
+      <td>{{ action.action.created_timestamp | date:'MM/dd/yyyy' }}</td>
+      <td>{{ action.createdBy }}</td>
+      <td>
+        <div>{{ action.ack_type | unsnake | titlecase }}</div>
       </td>
     </tr>
   </tbody>

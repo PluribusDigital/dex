@@ -55,6 +55,8 @@ app.controller("ActionShowController", function ($scope, $routeParams, DataServi
                 templateUrl: 'templates/partials/found-modal.html',
                 controller: function($scope, $uibModalInstance, DataService, $location) {
                     $scope.response = 'publish';
+                    $scope.showChoices = true;
+                    $scope.showCommentsSection = false;
                     $scope.respond = function() {
                         var action = ResultsService.getSelected();
                         var user = SessionService.getUser();

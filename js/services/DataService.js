@@ -104,6 +104,12 @@ app.factory('DataService',
                 return this._get(this.baseUrl + "states/" + id + "/acknowledgements", {});
             },
 
+            postAcknowledgement: function(data, actionId, userId){
+                return $http.post(this.baseUrl + 'actions/' + actionId + '/acknowledgements', data, {headers: {
+                    'user_id': userId  
+                }})
+            },
+
             getUser: function (id) {
                 console.log('use UserService.get() instead');
                 return null;
@@ -120,6 +126,7 @@ app.factory('DataService',
             searchProviders: function (input) {
                 return this._get(this.baseUrl + "_search/providers?q=" + input, {});
             }
+
         };
 
         return service;
