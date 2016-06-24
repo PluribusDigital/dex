@@ -111,8 +111,34 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
 
         var mutualAction = $uibModal.open({
           templateUrl: 'templates/partials/mutual-action-modal.html',
+          scope: $scope,
           controller: function($scope, $uibModalInstance) {
-            
+            $scope.stateActions = $scope.stateActions;
+      
+            $scope.postifFound = function(){
+              if( item ) {
+                var actionId = item.id;
+                item.response = 'Found';
+                var itemIndex = $scope.stateActions.indexOf(item);
+                var postData = {
+                  state_id: item.state_id, 
+                  ack_type: "found"
+                }
+                dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
+                  // remove from needs attn
+                  var itemIndex = $scope.stateActions.indexOf(item);
+                  
+                  $scope.stateActions.splice(itemIndex, 1);
+                  // format item to be pushed to acknowledged actions
+                  var thisAction = res.data;
+                  thisAction.action = item;
+                  thisAction.createdBy = thisAction.action.createdBy;
+                  thisAction.action.ack_type = thisAction.ack_type;
+                  $scope.stateActionsResponded.push(thisAction);
+                });
+              }
+            };
+
             $scope.mutualAction = function() {
               item.provider.isMutual = true;
               item.provider.action_type = item.action_type;
@@ -128,9 +154,11 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
                 ResultsService.setSelected(item.provider);
                 $location.path('/create-action/form');
               }
+              $scope.postifFound();
               $scope.close();
             };
             $scope.close = function() {
+              $scope.postifFound();
               $uibModalInstance.close($scope.selected);
             };
           }
