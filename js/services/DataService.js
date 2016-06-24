@@ -115,6 +115,12 @@ app.factory('DataService',
                 return null;
             },
 
+            updateUserLastLogin: function(data, userId) {
+                return $http.put(this.baseUrl + '/users/' + userId, data, {headers: {
+                    'user_id': userId  
+                }})
+            },
+
             search: function (input) {
                 return this._get(this.baseUrl + "_search?q=" + input, {});
             },

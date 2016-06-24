@@ -151,17 +151,16 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
           ack_type: "not_found"
         }
         dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
+          // remove from needs attn
           var itemIndex = $scope.stateActions.indexOf(item);
           $scope.stateActions.splice(itemIndex, 1);
+          // format item to be pushed to acknowledged actions
           var thisAction = res.data;
           thisAction.action = item;
+          thisAction.createdBy = thisAction.action.createdBy;
           thisAction.action.ack_type = thisAction.ack_type;
-          console.log('thisAction',thisAction)
-
-          UserService.get(thisAction.action.creator.state_id).then(function(res){
-            thisAction.createdBy = res.state.abbreviation;
-            $scope.stateActionsResponded.push(thisAction);
-          });
+          $scope.stateActionsResponded.push(thisAction);
+          
         });
 
       }
@@ -244,15 +243,21 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
     //     o.action.response = o.ack_type;
     //     $scope.stateActions.push(o.action);
     // });
-
     // Add the source into the action object
     $scope.stateActions.forEach(function(item, index){
+
       if (item.creator_id) {
-        UserService.get(item.creator_id).then(function(res){
-          item.createdBy = res.state.abbreviation;
+        // get all users
+        UserService.getAll().then(function(data) {
+          $scope.users = data;
+          var match = $scope.users.find(function(user) {
+            return user.state_id === item.creator.state_id;
+          });
+          item.createdBy = match.state.abbreviation;
         });
       } 
     });
+    console.log($scope.stateActions)
 
     $scope.myActions.forEach(function(item,index){
       UserService.get(item.creator_id).then(function(res){

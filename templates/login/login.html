@@ -11,7 +11,7 @@
 
 		    <label for="username">Username or email address</label>
 		    <select name="username" id="username"
-		            ng-options="user.fullname + ' (' + user.state.abbreviation + ')' for user in users track by user.id"
+		            ng-options="user.fullname + ' (' + user.state.abbreviation + ')' for user in users  | orderBy: 'state.abbreviation' track by user.id"
 		            ng-model="user"></select>
 			
 		    <label for="password">Password</label>
