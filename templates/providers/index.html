@@ -1,23 +1,17 @@
 <div class="usa-banner-content" id="main-content">
-
-  <div class="usa-grid">
-    <div class="usa-width-one-half">
-      <h1>{{ pageTitle }}</h1>
-    </div>
-    <div class="usa-width-one-half">
-      <form class="usa-search usa-search-small create-btn" ng-submit="search()">
-        <div role="search">
-          <label class="usa-sr-only" for="search-field-small">Search small</label>
-          <input id="search-field-small" type="search" name="search" 
-                 placeholder="Enter name or NPI" ng-model="searchText">
-          <button type="submit" ng-disabled="!searchText">
-            <span class="usa-sr-only">Search</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <h1>{{ pageTitle }}</h1>
 </div>
+
+<form class="usa-search usa-search-small" ng-submit="search()">
+  <div role="search">
+    <label class="usa-sr-only" for="search-field-small">Search small</label>
+    <input id="search-field-small" type="search" name="search" 
+           placeholder="Enter name or NPI" ng-model="searchText">
+    <button type="submit" ng-disabled="!searchText">
+      <span class="usa-sr-only">Search</span>
+    </button>
+  </div>
+</form>
 
 <table class="usa-table-borderless" ng-show="providers.length > 0">
   <thead>
