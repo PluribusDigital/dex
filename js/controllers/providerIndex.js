@@ -4,7 +4,7 @@ app.controller("ProviderIndexController", function ($scope, DataService) {
   $scope.searchText = "";
 
   $scope.search = function() {
-    DataService.searchProviders($scope.searchText).then($scope.onSearchResults);
+    DataService.searchProviders($scope.searchText + "*").then($scope.onSearchResults);
   };
 
   $scope.onSearchResults = function(data) {
