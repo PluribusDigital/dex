@@ -141,16 +141,28 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   $scope.markNotFound = function (id) {
       var user = SessionService.getUser();
       var item = $scope._findAction($scope.stateActions, id);
+
       if( item ) {
         var actionId = item.id;
+
         item.response = 'Not Found';
         var postData = {
           state_id: item.state_id, 
           ack_type: "not_found"
         }
         dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
+          var itemIndex = $scope.stateActions.indexOf(item);
+          $scope.stateActions.splice(itemIndex, 1);
+          var thisAction = res.data;
+          thisAction.action = item;
+          thisAction.action.ack_type = thisAction.ack_type;
+          console.log('thisAction',thisAction)
 
-        })
+          UserService.get(thisAction.action.creator.state_id).then(function(res){
+            thisAction.createdBy = res.state.abbreviation;
+            $scope.stateActionsResponded.push(thisAction);
+          });
+        });
 
       }
   };
@@ -226,9 +238,7 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
         });
         $scope.stateActionsResponded.push(o);
       }
-    })
-    console.log('sar',$scope.stateActionsResponded);
-    console.log('ma', $scope.myActions)
+    });
     // TODO: Missing 'Provider' and the ack_type needs to match the case of Found or Not Found
     // data.acknowledgements.complete.forEach(function(o) {
     //     o.action.response = o.ack_type;
