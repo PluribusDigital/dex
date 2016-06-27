@@ -135,8 +135,7 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
                   state_id: user.state_id, 
                   ack_type: "found"
                 }
-                console.log(postData)
-                /*
+                
                 dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
                   // remove from needs attn
                   var itemIndex = $scope.stateActions.indexOf(item);
@@ -148,7 +147,7 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
                   thisAction.action.ack_type = thisAction.ack_type;
                   $scope.stateActionsResponded.push(thisAction);
                   $rootScope.$broadcast('removeFromState', itemIndex)
-                });*/
+                });
               }
             };
 
