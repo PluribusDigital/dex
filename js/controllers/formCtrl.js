@@ -67,8 +67,14 @@ function ($scope, $rootScope, $location, $filter, dataService, ResultsService, S
         fd.append("attachment", files);
         dataService.postAttachment(actionId, user.id, fd).then(function(){
           $location.path('/actions');
+          $rootScope.$broadcast('MyActions');
         });
       });
+  }
+
+  $scope.testRouting = function() {
+    $location.path('/actions');
+    $rootScope.$broadcast('MyActions');
   }
 
   // Check if mutual action

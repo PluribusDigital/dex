@@ -42,7 +42,7 @@
 </table>
 
 <table class="usa-table-borderless" ng-show="stateActions.length > 0">
-  <caption><h4 class="tab needs-response-tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4><h4 class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Acknowledged Actions</h4></caption>
+  <caption><h4 id='state-needs-response-tab' class="tab state-needs-response-tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 id="state-recent-tab" class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4><h4 class="tab state-acknowledged-tab" ng-click="switchWip($event, stateActions)">Acknowledged Actions</h4></caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
@@ -53,7 +53,7 @@
     </tr>
   </thead>
   <!-- State Actions -->
-  <tbody ng-if="needsAttn">
+  <tbody ng-show="needsAttn">
     <tr ng-repeat="action in stateActions">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
@@ -87,7 +87,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-if="recentActions">
+  <tbody ng-show="recentActions" id="state-recent-actions">
     <tr ng-repeat="action in myActions ">
       <td><a href="#/actions/{{action.id}}">
         <span class="usa-label">
@@ -102,7 +102,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-if="acknowledgedActions">
+  <tbody ng-show="acknowledgedActions">
     <tr ng-repeat="action in stateActionsResponded">
       <td><a href="#/actions/{{action.action_id}}">
         <span class="usa-label">

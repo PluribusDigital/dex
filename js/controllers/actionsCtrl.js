@@ -1,5 +1,5 @@
-app.controller("ActionsController", ['$scope', '$rootScope', '$routeParams', '$location', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService', 'UserService',
-function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
+app.controller("ActionsController", ['$scope', '$rootScope', '$routeParams', '$location', '$timeout', 'DataService', '$uibModal', 'SessionService', 'ResultsService', 'AuthorizationService', 'UserService',
+function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
 
   $scope.pageTitle = "Inventory Feed";
 
@@ -51,12 +51,14 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
   }
 
   // Sets active tab to needs attention
-  $scope.switchWip = function($event, actions, responded) {
+  $scope.switchWip = function($event, actions, simEvent) {
     var user = SessionService.getUser();
-    if ($event.target.firstChild.data === 'Recent Actions') {
+    
+    if (simEvent === 'recentActions' || $event.target.firstChild.data === 'Recent Actions') {
       $scope.recentActions = true;
       $scope.needsAttn = false;
       $scope.acknowledgedActions = false;
+      console.log('hi', $scope.recentActions, $scope.needsAttn, $scope.acknowledgedActions)
     } else if ($event.target.firstChild.data === 'Needs Response' || $event.target.firstChild.data === 'Needs Attention') {
       $scope.needsAttn = true;
       $scope.recentActions = false;
@@ -66,12 +68,19 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
       $scope.recentActions = false;
       $scope.acknowledgedActions = true;
     }
+    
     angular.element(document.querySelectorAll('.active-tab')[2]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[1]).removeClass('active-tab');
     angular.element(document.querySelectorAll('.active-tab')[0]).removeClass('active-tab');
-    angular.element($event.currentTarget).addClass('active-tab');
+    
+    if (simEvent === 'recentActions') {
+      var el = document.getElementById('state-recent-tab');
+      angular.element(el).addClass('active-tab');
+    } else if ($event.currentTarget){
+      angular.element($event.currentTarget).addClass('active-tab');
+    }
+    
     if (actions && !$scope.myActions) {
-
       var filteredActions = [];
       actions.forEach(function(item){
         if (item.createdBy === user.state.abbreviation || user.type === 'cms_user' && item.status !== 'under_review') {
@@ -112,30 +121,34 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
         var mutualAction = $uibModal.open({
           templateUrl: 'templates/partials/mutual-action-modal.html',
           scope: $scope,
-          controller: function($scope, $uibModalInstance) {
+          controller: function($scope, $uibModalInstance, $rootScope) {
             $scope.stateActions = $scope.stateActions;
-      
+            
             $scope.postifFound = function(){
+              
               if( item ) {
                 var actionId = item.id;
                 item.response = 'Found';
                 var itemIndex = $scope.stateActions.indexOf(item);
+                $scope.stateActions.splice(itemIndex, 1);
                 var postData = {
-                  state_id: item.state_id, 
+                  state_id: user.state_id, 
                   ack_type: "found"
                 }
+                console.log(postData)
+                /*
                 dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
                   // remove from needs attn
                   var itemIndex = $scope.stateActions.indexOf(item);
-                  
-                  $scope.stateActions.splice(itemIndex, 1);
+                  console.log(res)
                   // format item to be pushed to acknowledged actions
                   var thisAction = res.data;
                   thisAction.action = item;
                   thisAction.createdBy = thisAction.action.createdBy;
                   thisAction.action.ack_type = thisAction.ack_type;
                   $scope.stateActionsResponded.push(thisAction);
-                });
+                  $rootScope.$broadcast('removeFromState', itemIndex)
+                });*/
               }
             };
 
@@ -175,9 +188,10 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
 
         item.response = 'Not Found';
         var postData = {
-          state_id: item.state_id, 
+          state_id: user.state_id, 
           ack_type: "not_found"
         }
+
         dataService.postAcknowledgement(JSON.stringify(postData), actionId, user.id).then(function(res){
           // remove from needs attn
           var itemIndex = $scope.stateActions.indexOf(item);
@@ -285,19 +299,39 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
         });
       } 
     });
-    console.log($scope.stateActions)
 
     $scope.myActions.forEach(function(item,index){
-      UserService.get(item.creator_id).then(function(res){
-        $scope.myActions[index].createdBy = res.state.abbreviation;
-      });
+      if (item.creator_id) {
+        // get all users
+        UserService.getAll().then(function(data) {
+          $scope.users = data;
+          var match = $scope.users.find(function(user) {
+            return user.state_id === item.creator.state_id;
+          });
+          item.createdBy = match.state.abbreviation;
+        });
+      } 
+    });
+    for(i=0;i<$scope.stateActionsResponded.length -1;i++){
+      //console.log(i, $scope.stateActionsResponded.length, $scope.stateActionsResponded[i].action_id, $scope.stateActionsResponded[i+1].action_id)
+      if ($scope.stateActionsResponded[i].action_id == $scope.stateActionsResponded[(i+1)].action_id){
+        $scope.stateActionsResponded.splice(i, 1)
+      }
+    }
+    $scope.stateActionsResponded.forEach(function(item,index){
+      if (item) {
+        var stateId =[];
+
+        // get all users
+        dataService.getProvider(item.action.provider_id).then(function(res){
+          //console.log(item, res)
+          
+        })
+        
+      }
     });
     
-    $scope.stateActionsResponded.forEach(function(item,index){
-      UserService.get(item.action.creator_id).then(function(res){
-        $scope.stateActionsResponded[index].createdBy = res.state.abbreviation;
-      });
-    });
+
   };
 
   // Start fetching the data from the REST endpoints
@@ -311,4 +345,34 @@ function ($scope, $rootScope, $routeParams, $location, dataService, $uibModal, S
       $scope.onStateActionsLoaded(res);
     });
   }
+
+  
+
+  var goToRecent = function(){
+    $scope.needsAttn = false; 
+    $scope.recentActions = true;
+    $scope.$apply(function(){
+      $scope.needsAttn = false; 
+      $scope.recentActions = true;
+      angular.element(document.getElementById('state-recent-tab').triggerHandler('click'))
+    });
+    console.log($scope.needsAttn, $scope.recentActions, $scope.acknowledgedActions);
+  }
+
+  //watch for My Actions event
+  $rootScope.$on('MyActions', function() {
+    $timeout(function(){
+      var el = document.getElementById('state-recent-tab');
+      angular.element(el).addClass('active-tab');
+      el = document.getElementById('state-needs-response-tab');
+      angular.element(el).removeClass('active-tab');
+    }, 100);
+    console.log($scope.needsAttn, $scope.recentActions, $scope.acknowledgedActions);
+    goToRecent()
+  })
+
+  $rootScope.$on('removeFromState', function(itemIndex){
+    //console.log(itemIndex)
+    $scope.stateActions.splice(itemIndex, 1)
+  })
 }]);

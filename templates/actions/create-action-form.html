@@ -4,7 +4,7 @@
     <h3>{{provider.name | titlecase}} <small ng-if="provider.type">({{provider.type | titlecase}})</small></h3>
     <div>NPI: {{provider.npi}}</div>
     <address dex-address="provider.mailing_address"></address>
-  </div>
+  </div><div id='test-routing-change' ng-click="testRouting()">Test Routing</div>
   <hr>
   <form>
 	  <label for="action-type">Action Type <span uib-tooltip="Choose the reason to initiate this action for this provider" type="button" class="tooltip-icon">i</span></label>
