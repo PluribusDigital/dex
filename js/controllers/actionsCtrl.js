@@ -2,6 +2,8 @@ app.controller("ActionsController", ['$scope', '$rootScope', '$routeParams', '$l
 function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $uibModal, SessionService, ResultsService, AuthorizationService, UserService) {
 
   $scope.pageTitle = "Inventory Feed";
+  $scope.user = SessionService.getUser();
+  $scope.isCmsUser = $scope.user.type=='cms_user';
 
   $scope.searchNPI = function(npi) {
     $scope.results = {};
@@ -59,7 +61,7 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
       $scope.recentActions = true;
       $scope.needsAttn = false;
       $scope.acknowledgedActions = false;
-      console.log('hi', $scope.recentActions, $scope.needsAttn, $scope.acknowledgedActions)
+      // console.log('hi', $scope.recentActions, $scope.needsAttn, $scope.acknowledgedActions)
     } else if (switchTo === 'Needs Response' || switchTo === 'Needs Attention') {
       $scope.needsAttn = true;
       $scope.recentActions = false;
@@ -244,7 +246,7 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
         };      
       });
     });
-  };
+  }; //onAdminActionsLoaded
 
   $scope.onStateActionsLoaded = function (data) {
     $scope.stateActions = [];
