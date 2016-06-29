@@ -44,7 +44,7 @@
   </tbody>
 </table>
 
-<table class="usa-table-borderless" ng-show="stateActions.length > 0">
+<table class="usa-table-borderless">
   <caption>
     <h4 id='state-needs-response-tab' switch-to="Needs Response" class="tab state-needs-response-tab active-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-caution"></i> Needs Response</h4>
     <h4 id="state-recent-tab" switch-to="Recent Actions" class="tab state-recent-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-clock-o"></i> Recent Actions</h4>
@@ -125,3 +125,8 @@
     </tr>
   </tbody>
 </table>
+
+
+<div ng-show="needsAttn && (stateActions.length==0)"><em>no records to display</em></div>
+<div ng-show="acknowledgedActions && (stateActionsResponded.length==0)"><em>no records to display</em></div>
+<div ng-show="recentActions && (myActions.length==0)"><em>no records to display</em></div>
