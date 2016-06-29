@@ -3,7 +3,7 @@
     <a class="usa-button usa-button-primary create-btn" href="#/create-action">Create new action</a>
 </div>
 <!-- Admin Actions -->
-<table class="usa-table-borderless" ng-show="adminActions.length > 0">
+<table class="usa-table-borderless" ng-show="isCmsUser">
   <caption>
     <h4 class="tab wip-tab active-tab" switch-to="Needs Attention" ng-click="switchWip($event, adminActions)"><i class="gi gi-caution"></i> Needs Attention</h4>
     <h4 class="tab recent-tab" switch-to="Recent Actions" ng-click="switchWip($event, adminActions)"><i class="gi gi-clock-o"></i> Recent Actions</h4>
@@ -44,7 +44,10 @@
   </tbody>
 </table>
 
-<table class="usa-table-borderless">
+<div ng-show="isCmsUser && needsAttn && ((adminActions | filter: 'under_review').length==0)"><em>no records to display</em></div>
+<div ng-show="isCmsUser && recentActions && (filteredActions.length==0)"><em>no records to display</em></div>
+
+<table class="usa-table-borderless" ng-hide="isCmsUser">
   <caption>
     <h4 id='state-needs-response-tab' switch-to="Needs Response" class="tab state-needs-response-tab active-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-caution"></i> Needs Response</h4>
     <h4 id="state-recent-tab" switch-to="Recent Actions" class="tab state-recent-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-clock-o"></i> Recent Actions</h4>
