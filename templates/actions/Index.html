@@ -4,7 +4,10 @@
 </div>
 <!-- Admin Actions -->
 <table class="usa-table-borderless" ng-show="adminActions.length > 0">
-  <caption><h4 class="tab wip-tab active-tab" ng-click="switchWip($event, adminActions)">Needs Attention</h4><h4 class="tab recent-tab" ng-click="switchWip($event, adminActions)">Recent Actions</h4></caption>
+  <caption>
+    <h4 class="tab wip-tab active-tab" switch-to="Needs Attention" ng-click="switchWip($event, adminActions)"><i class="gi gi-caution"></i> Needs Attention</h4>
+    <h4 class="tab recent-tab" switch-to="Recent Actions" ng-click="switchWip($event, adminActions)"><i class="gi gi-clock-o"></i> Recent Actions</h4>
+  </caption>
   <thead>
     <tr>
       <th scope="col">Action</th>
@@ -42,7 +45,11 @@
 </table>
 
 <table class="usa-table-borderless" ng-show="stateActions.length > 0">
-  <caption><h4 id='state-needs-response-tab' class="tab state-needs-response-tab active-tab" ng-click="switchWip($event, stateActions)">Needs Response</h4><h4 id="state-recent-tab" class="tab state-recent-tab" ng-click="switchWip($event, stateActions)">Recent Actions</h4><h4 class="tab state-acknowledged-tab" ng-click="switchWip($event, stateActions)">Acknowledged Actions</h4></caption>
+  <caption>
+    <h4 id='state-needs-response-tab' switch-to="Needs Response" class="tab state-needs-response-tab active-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-caution"></i> Needs Response</h4>
+    <h4 id="state-recent-tab" switch-to="Recent Actions" class="tab state-recent-tab" ng-click="switchWip($event, stateActions)"><i class="gi gi-clock-o"></i> Recent Actions</h4>
+    <h4 class="tab state-acknowledged-tab" switch-to="Acknowledged Actions" ng-click="switchWip($event, stateActions)"><i class="gi gi-check"></i> Acknowledged Actions</h4>
+  </caption>
   <thead>
     <tr>
       <th scope="col">Action</th>

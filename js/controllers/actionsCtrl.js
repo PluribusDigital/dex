@@ -53,17 +53,18 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
   // Sets active tab to needs attention
   $scope.switchWip = function($event, actions, simEvent) {
     var user = SessionService.getUser();
-    
-    if (simEvent === 'recentActions' || $event.target.firstChild.data === 'Recent Actions') {
+    var switchTo = $event.target.attributes['switch-to'].nodeValue;
+
+    if (simEvent === 'recentActions' || switchTo === 'Recent Actions') {
       $scope.recentActions = true;
       $scope.needsAttn = false;
       $scope.acknowledgedActions = false;
       console.log('hi', $scope.recentActions, $scope.needsAttn, $scope.acknowledgedActions)
-    } else if ($event.target.firstChild.data === 'Needs Response' || $event.target.firstChild.data === 'Needs Attention') {
+    } else if (switchTo === 'Needs Response' || switchTo === 'Needs Attention') {
       $scope.needsAttn = true;
       $scope.recentActions = false;
       $scope.acknowledgedActions = false;
-    } else if ($event.target.firstChild.data === 'Acknowledged Actions') {
+    } else if (switchTo === 'Acknowledged Actions') {
       $scope.needsAttn = false;
       $scope.recentActions = false;
       $scope.acknowledgedActions = true;

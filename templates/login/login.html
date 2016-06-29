@@ -1,9 +1,16 @@
 <div class="usa-grid">
 	<div class="usa-width-two-thirds">
 		<h1>{{pageTitle}}</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac diam nec nisl tempus pulvinar nec sed odio. Suspendisse eu ipsum odio. Donec volutpat orci et lacinia ullamcorper. Praesent molestie sed enim sit amet ullamcorper. Nunc bibendum massa in diam accumsan dapibus. Nulla et eros felis. Sed scelerisque est eget elit tristique, tincidunt finibus massa fermentum. Etiam vel tincidunt mauris, sit amet elementum augue. Pellentesque in commodo lorem. Phasellus commodo sit amet leo a bibendum. Donec blandit massa dignissim, faucibus justo at, blandit est. Nulla vitae gravida tellus, faucibus tristique lectus. Duis id ex venenatis purus auctor pellentesque. Duis porta nisl non porttitor blandit. Etiam vel purus et lectus ultrices mattis vel sed sapien. Donec ac fringilla tortor.
-		</p>
+		<p>This prototype was developed by Team STSI, comprised of STSI and 540.co.</p>
+		<h3><i class="gi gi-user"></i> Signing In</h3>
+		<p>The production application will leverage CMS's enterprise login capability. For the demo, you can simply pick a fake user from the right side to login as the user.</p>
+		<h3><i class="gi gi-cog"></i> Technology</h3>
+		<p>Although the prototype is not functionally complete, it is built on a real production stack. The frontend uses the US Web Design Standards and AngularJS. The backend uses Node/Express, PostgreSQL, and Elasticsearch - all deployed to Amazon Web Services.</p>
+		<h3><i class="gi gi-code"></i> API Documentation</h3>
+		<p>The system follows an "API-first" design. The same API we use internally to support the frontend user interface can be used by States to integrate with their own systems. We provide <a href="https://cmsdex-api.540.co/" target="_blank">interactive API documentation</a> to make it as easy as possible for internal or external developers.</p>
+
 	</div>
+
 	<div class="usa-width-one-third sign-in-container">
 		<form>
 		  <fieldset>
@@ -25,5 +32,13 @@
 		      Forgot password?</a></p>
 		  </fieldset>
 		</form>
+
+		<div class="usa-alert usa-alert-info ng-scope" ng-hide="providers.length > 0">
+    <div class="usa-alert-body">
+      <h3 class="usa-alert-heading">Demo Information</h3>
+      <p class="usa-alert-text">Info boxes (like this one) throughout the site provide more context for the demo functionality.</p>
+    </div>
+		</div>
+		
 	</div>
 </div>
