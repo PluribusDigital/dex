@@ -16,10 +16,10 @@ app.controller("LoginController",
       "state_id": $scope.user.state_id,
       "last_login": date
     };
-    DataService.updateUserLastLogin(JSON.stringify(putData), $scope.user.id).then(function(res){
+    /*DataService.updateUserLastLogin(JSON.stringify(putData), $scope.user.id).then(function(res){
       $scope.user = res.data;
       SessionService.setUser($scope.user);
-    })
+    })*/
     
     AuthorizationService.assignPermissions();
     if (SessionService.getUser() !== null)

@@ -10,3 +10,5 @@ __pycache__/
 *.sublime-*
 *.sln
 *.suo
+
+node_modules/

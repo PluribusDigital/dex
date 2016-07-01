@@ -325,10 +325,13 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
         var stateId =[];
 
         // get all users
-        dataService.getProvider(item.action.provider_id).then(function(res){
-          //console.log(item, res)
-          
-        })
+        UserService.getAll().then(function(data) {
+          $scope.users = data;
+          var match = $scope.users.find(function(user) {
+            return user.state_id === item.action.state_id;
+          });
+          item.createdBy = match.state.abbreviation;
+        });
         
       }
     });
