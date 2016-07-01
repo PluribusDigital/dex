@@ -272,8 +272,10 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
     });
 
     data.acknowledgements.complete.forEach(function(o){
-      o.action.response = o.ack_type;
-      if (!o.action.provider) {
+      if (o.action) {
+        o.action.response = o.ack_type;
+      }
+      if (o.action && !o.action.provider) {
         dataService.getProvider(o.action.provider_id).then(function(res){
           o.action.provider = {
             name: res.name
