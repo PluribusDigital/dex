@@ -252,7 +252,13 @@ function ($scope, $rootScope, $routeParams, $location, $timeout, dataService, $u
     $scope.stateActions = [];
     $scope.stateActionsResponded = [];
     $scope.myActions = [];
-    $scope.pageTitle = "Inventory Feed - " + data.name;
+    if (data.name.length > 12) {
+      $scope.pageTitle = "Inventory Feed - " + data.name;
+      var el = document.getElementById('page-title');
+      angular.element(el).addClass('smaller-title');
+    } else {
+      $scope.pageTitle = "Inventory Feed - " + data.name;
+    }
     $scope.needsAttn = true;
     $scope.recentActions = false;
     user = SessionService.getUser();

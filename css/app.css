@@ -138,3 +138,8 @@ table caption {
 	padding: 3px 8px;
 	border-radius: 50%;
 }
+
+.smaller-title {
+	max-width: 81%;
+	margin-bottom: -30px;
+}
